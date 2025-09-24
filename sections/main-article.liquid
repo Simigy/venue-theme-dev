@@ -1,0 +1,455 @@
+{% assign number_of_comments = article.comments_count %}
+
+<section class="section section--article article{% unless article.image and section.settings.show_img %} article--no-img{% endunless %}">
+  {% if section.settings.show_img %}
+    {% if article.image %}
+      <div class="container container--mob-0">
+        <div
+          class="article__featured-media"
+          style="background-image: url('{{ article.image.src | image_url: width: 1, height: 1 }}')"
+        >
+          <img
+            class="article__featured-media__img "
+            src="{{ article.image | image_url: width: 300 }}"
+            srcset="{% render 'bgset', image: article.image %}"
+            sizes="(min-width: 981px) 50vw, 100vw"
+            width="300"
+            height="{{ 300 | divided_by: article.image.aspect_ratio | round }}"
+            alt="{{ article.image.alt }}"
+            loading="lazy"
+          >
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+  
+  <div class="container article__container">
+    <div class="article__blocks">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}
+            <div class="article__block article__block--{{ block.type }}" {{ block.shopify_attributes }}>
+              {% render block %}
+            </div>
+
+          {%- when 'title' -%}
+            <div class="article__block article__block--{{ block.type }}" {{ block.shopify_attributes }}>
+              <div class="article__title">
+                <div class="section__title section__title--center">
+                  <h1 class="section__title-text">{{ article.title }}</h1>
+                </div>
+              </div>
+            </div>
+          
+          {%- when 'content' -%}
+            <div class="article__block article__block--{{ block.type }}" {{ block.shopify_attributes }}>
+              <div class="article__content rte" itemprop="articleBody">
+                {{ article.content }}
+              </div>
+            </div>
+{% if blog.handle == "drinksopskrifter" %}
+  <div style="margin: 3rem 0; text-align: center;">
+    <div id="rating-widget" data-drink-id="{{ article.handle }}">
+      <p style="font-weight: 600; font-size: 1.3rem; color: #0a2d27; margin-bottom: 1rem;">Vurder drinkopskriften</p>
+      <div id="stars" style="font-size: 2.5rem; cursor: pointer; color: #ccc;">
+        <span data-index="1" style="transition: color 0.3s;">★</span>
+        <span data-index="2" style="transition: color 0.3s;">★</span>
+        <span data-index="3" style="transition: color 0.3s;">★</span>
+        <span data-index="4" style="transition: color 0.3s;">★</span>
+        <span data-index="5" style="transition: color 0.3s;">★</span>
+      </div>
+      <p id="rating-result" style="margin-top: 0.75rem; font-size: 1rem; color: #0a2d27;"></p>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1vVSUHVFogzGBsns7gJZMRiwv_aIc5cg",
+      authDomain: "spondia-71275.firebaseapp.com",
+      databaseURL: "https://spondia-71275-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "spondia-71275",
+      storageBucket: "spondia-71275.appspot.com",
+      messagingSenderId: "1028200669233",
+      appId: "1:1028200669233:web:85aafdbe36deb1bf35b510"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const drinkId = document.getElementById("rating-widget").dataset.drinkId;
+    const starsEl = document.getElementById("stars");
+    const resultEl = document.getElementById("rating-result");
+
+    let userRated = false;
+
+    const ratingRef = db.ref("ratings/" + drinkId);
+    ratingRef.on("value", (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const avg = (data.total / data.count).toFixed(1);
+        resultEl.textContent = `Vurdering: ${avg} (${data.count})`;
+        starsEl.querySelectorAll("span").forEach(star => {
+          star.style.color = "#f5b301";
+        });
+      } else {
+        resultEl.textContent = "Ingen vurderinger endnu.";
+      }
+    });
+
+    starsEl.addEventListener("click", function(e) {
+  if (userRated) return;
+  const rating = parseInt(e.target.dataset.index);
+  if (!rating) return;
+
+  db.ref("ratings/" + drinkId).transaction((current) => {
+    if (current && typeof current.count === "number" && typeof current.total === "number") {
+      return {
+        count: current.count + 1,
+        total: current.total + rating
+      };
+    } else {
+      return {
+        count: 1,
+        total: rating
+      };
+    }
+  }, function(error, committed, snapshot) {
+    if (error) {
+      console.error("FEJL VED VURDERING:", error);
+      alert("Noget gik galt – prøv igen senere.");
+    } else if (!committed) {
+      console.warn("Vurdering blev ikke gemt.");
+    } else {
+      console.log("Vurdering gemt!");
+      alert("Tak for din vurdering!");
+      userRated = true;
+    }
+  });
+});
+
+
+    starsEl.querySelectorAll("span").forEach(star => {
+      star.addEventListener("mouseenter", function() {
+        const index = parseInt(this.dataset.index);
+        starsEl.querySelectorAll("span").forEach(s => {
+          s.style.color = parseInt(s.dataset.index) <= index ? "#f5b301" : "#ccc";
+        });
+      });
+      star.addEventListener("mouseleave", function() {
+        if (!userRated) {
+          starsEl.querySelectorAll("span").forEach(s => {
+            s.style.color = "#ccc";
+          });
+        }
+      });
+    });
+  </script>
+{% endif %}
+
+          {%- when 'date' -%}
+            <div class="article__block article__block--{{ block.type }}" {{ block.shopify_attributes }}>
+              <div class="article__date label label--brand">
+                <p class="article__date-text label__text">{{ article.published_at | date: '%b %d, %Y' }}</p>
+              </div>
+            </div>
+
+          {%- when 'tags' -%}
+            {% if article.tags.size > 0 %}
+              <div class="article__block article__block--{{ block.type }}" {{ block.shopify_attributes }}>
+                <div class="article__tags">
+                  <ul class="article__tags-items o-list-bare">
+                    {% for tag in article.tags %}
+                      <li class="article__tags-item">
+                        {{ tag | link_to_tag: tag -}}
+                        {%- unless forloop.last == true %} / {% endunless %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            {% endif %}
+
+          {%- when 'meta' -%}
+            <div class="article__block article__block--{{ block.type }}" {{ block.shopify_attributes }}>
+              <div class="article__meta">
+                <div class="article__meta-wrapper">
+                  {% if block.settings.show_author %}
+                    <div class="article__meta-author">
+                      <p class="article__meta-author__text">{{ article.author }}</p>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.show_sharing %}
+                    <div class="article__meta-share">
+                      {%- liquid
+                        assign share_link = shop.url | append: article.url
+                        assign share_title = article.title | url_param_escape
+                        assign share_img = article.featured_image | image_url: width: 1024, height: 1024
+                      -%}
+                      {%- render 'share-links',
+                        share_link: share_link,
+                        share_title: share_title,
+                        share_img: share_img
+                      -%}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {% if blog.next_article or blog.previous_article %}
+    <div class="article-paginate">
+      <div class="article-paginate__wrapper">
+        <div class="article-paginate__item article-paginate__item--prev{% unless blog.previous_article %} article-paginate__item--disabled{% endunless %}">
+          {% if blog.previous_article %}
+            <a href="{{ blog.previous_article }}" class="article-paginate__link icon-fallback">
+              <i class="icon icon--left-t" aria-hidden="true"></i>
+              <span class="icon-fallback__text">{{ 'blogs.article.older_post' | t }}</span>
+            </a>
+          {% else %}
+            <span class="article-paginate__link icon-fallback">
+              <i class="icon icon--left-t" aria-hidden="true"></i>
+              <span class="icon-fallback__text">{{ 'blogs.article.older_post' | t }}</span>
+            </span>
+          {% endif %}
+        </div>
+        <div class="article-paginate__item article-paginate__item--next{% unless blog.next_article %} article-paginate__item--disabled{% endunless %}">
+          {% if blog.next_article %}
+            <a href="{{ blog.next_article }}" class="article-paginate__link icon-fallback">
+              <i class="icon icon--right-t" aria-hidden="true"></i>
+              <span class="icon-fallback__text">{{ 'blogs.article.newer_post' | t }}</span>
+            </a>
+          {% else %}
+            <span class="article-paginate__link icon-fallback">
+              <i class="icon icon--right-t" aria-hidden="true"></i>
+              <span class="icon-fallback__text">{{ 'blogs.article.newer_post' | t }}</span>
+            </span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if blog.comments_enabled? %}
+    <div
+      class="article-comments{% unless blog.next_article or blog.previous_article %} article-comments--mt{% endunless %}"
+      id="comments"
+    >
+      <div class="container container--tiny">
+        <div class="article-comments__comments">
+          {% if number_of_comments > 0 %}
+            <h2 class="article-comments__title h4">{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</h2>
+          {% endif %}
+          {% paginate article.comments by 3 %}
+            {% if comment and comment.created_at %}
+              <p class="article-comments__note form-success">
+                {% if blog.moderated? %}
+                  {{ 'blogs.comments.success_moderated' | t }}
+                {% else %}
+                  {{ 'blogs.comments.success' | t }}
+                {% endif %}
+              </p>
+            {% endif %}
+            {% if number_of_comments > 0 %}
+              <ul class="article-comments__items o-list-bare">
+                {% for comment in article.comments %}
+                  <li id="{{ comment.id }}" class="article-comments__item">
+                    <div class="article-comments__content rte">
+                      {{ comment.content }}
+                    </div>
+                    <div class="article-comments__meta">
+                      <span class="article-comments__meta-item">{{ comment.author }}</span>
+                      <span class="article-comments__meta-item">
+                        {{- comment.created_at | time_tag: format: 'month_day_year' -}}
+                      </span>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if paginate.pages > 1 %}
+              <div class="article-comments__pagination">
+                <div class="container">
+                  <div class="pagination">
+                    <div class="pagination__items">
+                      {{
+                        paginate
+                        | default_pagination:
+                          next: '<i class="icon icon--right-t"></i><span class="icon-fallback__text">Next Page</span>',
+                          previous: '<i class="icon icon--left-t"></i><span class="icon-fallback__text">Previous Page</span>'
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endpaginate %}
+        </div>
+
+        <div class="article-comments__form article-form{% if number_of_comments < 1 %} article-form--first{% endif %}">
+          {% form 'new_comment', article %}
+            <h2 class="article-form__title h4">{{ 'blogs.comments.title' | t }}</h2>
+
+            {{ form.errors | default_errors }}
+
+            <div class="o-layout">
+              <div class="o-layout__item u-1/1 u-1/2@tab">
+                <label for="CommentAuthor">{{ 'blogs.comments.name' | t }}</label>
+                <input
+                  type="text"
+                  name="comment[author]"
+                  id="CommentAuthor"
+                  class="input-full{% if form.errors contains 'author' %} input--error{% endif %}"
+                  value="{{ form.author }}"
+                >
+              </div>
+
+              <div class="o-layout__item u-1/1 u-1/2@tab">
+                <label for="CommentEmail">{{ 'blogs.comments.email' | t }}</label>
+                <input
+                  type="email"
+                  name="comment[email]"
+                  id="CommentEmail"
+                  class="input-full{% if form.errors contains 'email' %} input--error{% endif %}"
+                  value="{{ form.email }}"
+                  autocorrect="off"
+                  autocapitalize="off"
+                >
+              </div>
+
+              <div class="o-layout__item u-1/1">
+                <label for="CommentBody">{{ 'blogs.comments.message' | t }}</label>
+                <textarea
+                  name="comment[body]"
+                  id="CommentBody"
+                  class="input-full{% if form.errors contains 'body' %} input--error{% endif %}"
+                >{{ form.body }}</textarea>
+              </div>
+            </div>
+
+            {% if blog.moderated? %}
+              <p class="article-form__fine-print u-small">{{ 'blogs.comments.moderated' | t }}</p>
+            {% endif %}
+
+            <input type="submit" class="c-btn c-btn--primary c-btn--center" value="{{ 'blogs.comments.post' | t }}">
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "name": {{ article.title | json }},
+  "image": [
+    {{ article.image | image_url: width: 800 | prepend: "https:" | json }}
+  ],
+  "author": {
+    "@type": "Person",
+    "name": {{ article.author | json }}
+  },
+  "datePublished": {{ article.published_at | date: '%Y-%m-%d' | json }},
+  "description": {{ article.excerpt | strip_html | json }},
+  {% if article.metafields.custom.recipecategory %}
+  "recipeCategory": {{ article.metafields.custom.recipecategory | json }},
+  {% endif %}
+  {% if article.metafields.custom.recipeyield %}
+  "recipeYield": {{ article.metafields.custom.recipeyield | json }},
+  {% endif %}
+  {% if article.metafields.custom.recipeingredient %}
+  "recipeIngredient": [
+    {% assign ingredients = article.metafields.custom.recipeingredient | split: "•" %}
+    {% for ingredient in ingredients %}
+      {{ ingredient | strip | json }}{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  {% endif %}
+  {% if article.metafields.custom.recipeinstructions %}
+  "recipeInstructions": [
+    {% assign steps = article.metafields.custom.recipeinstructions | split: "•" %}
+    {% for step in steps %}
+      {
+        "@type": "HowToStep",
+        "text": {{ step | strip | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  {% endif %}
+  {% if article.metafields.custom.preptime %}
+  "prepTime": {{ article.metafields.custom.preptime | json }},
+  {% endif %}
+  {% if article.metafields.custom.gennemsnitlig_vurdering and article.metafields.custom.antal_vurderinger %}
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": {{ article.metafields.custom.gennemsnitlig_vurdering }},
+    "reviewCount": {{ article.metafields.custom.antal_vurderinger }}
+  }
+  {% endif %}
+}
+</script>
+
+{% schema %}
+{
+  "name": "Article",
+  "class": "js-section__article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_img",
+      "label": "Show featured image",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "date",
+      "name": "Date",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 1
+    },
+    {
+      "type": "tags",
+      "name": "Tags",
+      "limit": 1
+    },
+    {
+      "type": "meta",
+      "name": "Author and share",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_author",
+          "label": "Show author",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_sharing",
+          "label": "Show social sharing buttons",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
