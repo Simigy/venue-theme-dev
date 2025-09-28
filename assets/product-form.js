@@ -47,7 +47,14 @@ class ProductForm extends HTMLElement {
 
       if (this.notifyOnAdd) {
         await window.theme.cart.store.getState().resetVariantsBeingAdded();
-        if (!this.closest('.cart-draw')) theme.mfpOpen('cart');
+        if (!this.closest('.cart-draw')) {
+          // Use openSimpleCart instead of theme.mfpOpen
+          if (typeof openSimpleCart === 'function') {
+            openSimpleCart();
+          } else {
+            theme.mfpOpen('cart');
+          }
+        }
       } else {
         await window.theme.cart.store.getState().resetLatestAddedProduct();
         await window.theme.cart.store

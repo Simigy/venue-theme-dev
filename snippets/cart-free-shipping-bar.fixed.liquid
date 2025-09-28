@@ -1,0 +1,111 @@
+{%- comment -%}
+  Always-on free shipping bar fixed to 1,000 DKK threshold
+{%- endcomment -%}
+{%- liquid
+  assign display_free_shipping = true
+  assign free_shipping_value = 1000 | times: 100
+
+  assign free_shipping_value_with_currency = free_shipping_value | money_without_trailing_zeros
+
+  if current_cart
+    assign cart_total = current_cart.total_price
+    assign money_left = free_shipping_value | minus: cart_total
+    if money_left <= 0
+      assign money_left = 0
+    endif
+  else
+    assign cart_total = 0
+    assign money_left = free_shipping_value
+  endif
+  assign money_left_with_currency = money_left | money_without_trailing_zeros
+  assign percent_left = money_left | times: 1.0 | divided_by: free_shipping_value | times: 100
+  assign displacement = percent_left | round
+
+  assign track_color = settings.free_shipping_progress_bar_color
+  if settings.free_shipping_progress_bar_gradient != blank
+    assign track_color = settings.free_shipping_progress_bar_gradient
+  endif
+
+  if show_goal_animation == null
+    assign show_goal_animation = settings.free_shipping_enable_animation_on_completion
+  endif
+
+  if align_left == null
+    assign align_left = settings.free_shipping_align_left
+  endif
+-%}
+{%- if display_free_shipping -%}
+  <free-shipping-bar
+    class="
+      free-shipping-bar
+      {% if align_left %}free-shipping-bar--align-left{% endif %}
+    "
+    value="{{ cart_total }}"
+    minimum-value="{{ free_shipping_value }}"
+    style="--track-color: {{ track_color }}"
+    {% if reveal_delay %}
+      reveal-delay="{{ reveal_delay }}"
+    {% endif %}
+  >
+    <free-shipping-bar-text class="free-shipping-bar__text">
+      {%- unless settings.free_shipping_icon == 'none' or hide_icon -%}
+        <span class="free-shipping-bar__icon">
+          {% if settings.free_shipping_icon_svg != blank %}
+            {{ settings.free_shipping_icon_svg | replace: ' width=', ' ' | replace: ' height=', ' ' }}
+          {% else %}
+            {% render 'icons', icon: settings.free_shipping_icon %}
+          {% endif %}
+        </span>
+      {%- endunless -%}
+      <amount-to-spend
+        {% if cart_total > 0 %}
+          hidden
+        {% endif %}
+      >
+        {{- 'cart.free_shipping.spend_amount_html' | t: amount: free_shipping_value_with_currency -}}
+      </amount-to-spend>
+      <amount-left
+        {% if cart_total == 0 or money_left == 0 %}
+          hidden
+        {% endif %}
+      >
+        {{- 'cart.free_shipping.encouragement_html' | t: amount: money_left_with_currency -}}
+      </amount-left>
+      <minimum-reached
+        {% if money_left > 0 %}
+          hidden
+        {% endif %}
+      >
+        {{- 'cart.free_shipping.goal_reached_html' | t -}}
+      </minimum-reached>
+    </free-shipping-bar-text>
+    <free-shipping-bar-track
+      class="fsb-track"
+      style="--displacement: {{ displacement }}%; position: relative; display:block; margin-top: 6px;"
+    >
+      <div class="fsb__bar" style="position: relative; height: 6px; background: #cfc5b6; border-radius: 4px;">
+        <div class="fsb__progress" style="position:absolute; left:0; top:0; bottom:0; width: calc(100% - var(--displacement)); background:#0a2d27; border-radius: 4px;"></div>
+      </div>
+      <div class="fsb__markers" aria-hidden="true">
+        <span class="fsb__marker" style="position:absolute; left:50%; top:-11px; width:22px; height:22px; border:2px solid #0a2d27; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; transform: translateX(-50%);">
+          <span style="display:inline-block; transform: scale(0.9);">{% render 'icons', icon: 'icon-delivery-truck-3' %}</span>
+        </span>
+        <span class="fsb__marker" style="position:absolute; right:-11px; top:-11px; width:22px; height:22px; border:2px solid #0a2d27; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span style="display:inline-block; transform: scale(0.9);">{% render 'icons', icon: 'icon-gift-box' %}</span>
+        </span>
+      </div>
+    </free-shipping-bar-track>
+    <free-shipping-bar-scale class="free-shipping-bar__scale" style="position: relative; height: 18px; margin-top: 6px;">
+      <span class="free-shipping-bar__scale-label" style="position: absolute; left: 50%; transform: translateX(-50%); font-size: .85em; color: var(--color-text, inherit);">500 kr.</span>
+      <span class="free-shipping-bar__scale-label" style="position: absolute; right: 0; font-size: .85em; color: var(--color-text, inherit);">1,000 kr.</span>
+    </free-shipping-bar-scale>
+    {%- if show_goal_animation -%}
+      <free-shipping-bar-goal-animation
+        class="free-shipping-bar__animation"
+        data-url="{{ 'animation.confetti.json' | asset_url }}"
+      ></free-shipping-bar-goal-animation>
+    {%- endif -%}
+  </free-shipping-bar>
+{%- endif -%}
+
+

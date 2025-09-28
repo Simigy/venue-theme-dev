@@ -233,6 +233,25 @@
     })(window, document, "clarity", "script", "otwzpeqoon");
 </script>
     
+<style>
+/* Hide original theme cart drawers */
+.cart-drawer, #CartDrawer, .mini-cart, .ajax-cart, .drawer--cart,
+.cart-draw, [class*="cart-drawer"], [class*="cart-draw"],
+[class*="ajax-cart"], [class*="mini-cart"], .drawer, .js-drawer,
+.drawer--is-open, [data-drawer], [data-ajax-cart] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Hide overlays */
+.cart-drawer__overlay, .drawer__overlay, .ajax-cart__overlay,
+.mfp-bg, .overlay, .js-overlay {
+    display: none !important;
+}
+</style>
+
   </head>
 
   <body
@@ -287,7 +306,6 @@
         }
       </script>
     {%- endif -%}
-    {% render 'cart-templates' %}
 
     <a class="skip-to-content-link" href="#main">{{ 'accessibility.skip_to_text' | t }}</a>
 
@@ -318,30 +336,8 @@
       %}
     {% endif %}
 
-    {%- if settings.cart_type != 'page' -%}
-      {%- liquid
-        if settings.cart_type == 'modal'
-          assign modal_class = 'cart-draw'
-          assign additoinal_classes = 'mobile-draw cart-draw--' | append: settings.color_drawer_style
-        else
-          assign modal_class = 'cart-notification'
-        endif
-      -%}
-      {%- unless request.page_type == 'cart' and settings.cart_type == 'modal' -%}
-        <div class="js-cart-draw mfp-hide {{ modal_class }} {{ additoinal_classes }}">
-          <div class="{{ modal_class }}__wrapper">
-            {%- liquid
-              if settings.cart_type == 'modal'
-                render 'cart-drawer'
-              endif
-            -%}
-
-            {%- if settings.cart_type == 'notification' -%}
-              {%- render 'cart-notification' -%}
-            {%- endif -%}
-          </div>
-        </div>
-      {%- endunless -%}
+    {%- if template.name != 'cart' -%}
+      {%- render 'cart-drawer' -%}
     {%- endif -%}
 
     {% unless request.design_mode %}
@@ -412,37 +408,43 @@ klAjax = false;
 });
       </script>
     {% endif %}
-        <script async src="https://mitid.bewise.dk/script/a8be8135-0988-4f11-852c-19f4b6ea41e6/wild-distillery"></script>
+    
+    <script async src="https://mitid.bewise.dk/script/a8be8135-0988-4f11-852c-19f4b6ea41e6/wild-distillery"></script>
+    
     {% if customer %}
       <script>
-                window.customerData = {
-        isLoggedIn:  true,
-        id: {{ customer.id | json }}
-                }
+        window.customerData = {
+          isLoggedIn: true,
+          id: {{ customer.id | json }}
+        }
       </script>
     {% endif %}
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  if (document.querySelector('.media-gallery__nav')) {
-    var style = document.createElement('style');
-    style.textContent = `
-      @media (max-width: 750px) {
-          .media-gallery__nav.is-loaded {
-            display: none !important;
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (document.querySelector('.media-gallery__nav')) {
+        var style = document.createElement('style');
+        style.textContent = `
+          @media (max-width: 750px) {
+            .media-gallery__nav.is-loaded {
+              display: none !important;
+            }
           }
-        }
-    `;
-    document.head.appendChild(style);
-  }
-});
-</script>
+        `;
+        document.head.appendChild(style);
+      }
+    });
+    </script>
 
-{% if product.url == "/products/jordbaer-gin" or product.url == "/products/slaen-gin" %}
-<style>
-  .cbb-also-bought-container {display: none !important;}
-</style>
-{% endif %}
+    {% if product.url == "/products/jordbaer-gin" or product.url == "/products/slaen-gin" %}
+    <style>
+      .cbb-also-bought-container {display: none !important;}
+    </style>
+    {% endif %}
     
-  </body>
+{% render 'cart-drawer' %}
+</body>
+{% render 'cart-popup' %}
 </html>
+
+

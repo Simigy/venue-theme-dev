@@ -52,21 +52,13 @@
         </p>
       </noscript>
       {%- unless settings.cart_checkout_button_type == 'checkout_cart_amount' -%}
-        <p class="cart__total">
-          <span>{{ 'cart.general.subtotal' | t }}</span><cart-total class="money">{{- total_cart_price -}}</cart-total>
+        <p class="cart__total" style="display: flex; justify-content: space-between; align-items: center; font-size: 1.25rem; font-weight: 700; color: #0a2d27; margin: 0 0 8px 0;">
+          <span>Total</span><cart-total class="money">{{- total_cart_price -}}</cart-total>
         </p>
       {%- endunless -%}
 
-      <p class="cart__message">
-        {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
-          {{ 'cart.general.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
-        {%- elsif cart.taxes_included -%}
-          {{ 'cart.general.taxes_included_but_shipping_at_checkout' | t }}
-        {%- elsif shop.shipping_policy.body != blank -%}
-          {{ 'cart.general.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
-        {%- else -%}
-          {{ 'cart.general.taxes_and_shipping_at_checkout' | t }}
-        {%- endif -%}
+      <p class="cart__message" style="font-size: 0.875rem; color: #8b8b8b; margin: 0 0 20px 0;">
+        Moms inkluderet • Levering udregnes ved check-ud.
       </p>
     </div>
   </div>
@@ -90,23 +82,16 @@
       "
     >
       <form id="{{ form_id }}" action="{{ routes.cart_url }}" method="post" class="cart__form" novalidate>
-        {%- if show_view_cart_button and settings.cart_checkout_button_type == 'checkout_view_cart' -%}
-          <a href="{{ routes.cart_url }}" class="c-btn c-btn--hollow c-btn--full cart__view">
-            {{- 'cart.general.view_cart' | t -}}
-          </a>
-        {%- endif -%}
+        <a href="{{ routes.all_products_collection_url | default: routes.root_url }}" class="c-btn c-btn--hollow c-btn--full cart__continue" style="background: #ffffff; color: #0a2d27; border: 2px solid #0a2d27; padding: 12px 24px; border-radius: 4px; font-weight: 600; text-decoration: none; display: block; text-align: center; width: 100%; box-sizing: border-box; margin-top: 12px;">
+          Fortsæt med at shoppe
+        </a>
         <noscript>
           <button type="submit" name="update" class="c-btn c-btn--hollow cart__button-update update-cart">
             {{ 'cart.general.update' | t }}
           </button>
         </noscript>
-        <button type="submit" class="c-btn c-btn--full c-btn--primary cart__checkout" name="checkout">
-          {%- liquid
-            if settings.cart_checkout_button_icon_enable
-              render 'icons', icon: 'icon-lock-2', icon_color: settings.color_button
-            endif
-          -%}
-          <span>{{- 'cart.general.checkout' | t -}}</span>
+        <button type="submit" class="c-btn c-btn--full c-btn--primary cart__checkout" name="checkout" style="background: #0a2d27; color: #ffffff; border: none; padding: 12px 24px; border-radius: 4px; font-weight: 600; margin-bottom: 12px;">
+          <span>Kassen</span>
           {%- if settings.cart_checkout_button_type == 'checkout_cart_amount' -%}
             <span>&ndash;</span><cart-total class="money">{{- total_cart_price -}}</cart-total>
           {%- endif -%}

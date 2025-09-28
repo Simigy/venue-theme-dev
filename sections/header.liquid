@@ -229,32 +229,33 @@
     </div>
   {% endif %}
   <div
-    class="header-trigger header-trigger--right cart-draw-trigger-icon u-flex u-flex--middle js-cart-draw-icon"
-    style="display: none"
-  >
-    <cart-link>
-      {%- unless request.page_type == 'cart' -%}
-        <a
-          href="{{ routes.cart_url }}"
-          class="header-trigger__link header-trigger__link--cart js-cart-icon{% if cart.item_count > 0 %} js-cart-full{% endif %}{% if settings.cart_type == 'modal' %} js-cart-trigger{% endif %}"
-          aria-haspopup="dialog"
-          aria-label="{{ 'layout.cart.title' | t }}"
-        >
-          {% render 'icon-cart' %}
-          <div class="cart-count-bubble">
-            <items-count aria-hidden="true">{{ cart.item_count }}</items-count>
-          </div>
-        </a>
-      {%- else -%}
-        <span class="header-trigger__link header-trigger__link--cart js-cart-icon{% if cart.item_count > 0 %} js-cart-full{% endif %}">
-          {% render 'icon-cart' %}
-          <div class="cart-count-bubble">
-            <items-count aria-hidden="true">{{ cart.item_count }}</items-count>
-          </div>
-        </span>
-      {%- endunless -%}
-    </cart-link>
-  </div>
+  class="header-trigger header-trigger--right cart-draw-trigger-icon u-flex u-flex--middle js-cart-draw-icon"
+  style="display: none"
+>
+  <cart-link>
+    {%- unless request.page_type == 'cart' -%}
+      <a
+        href="{{ routes.cart_url }}"
+        class="header-trigger__link header-trigger__link--cart js-cart-icon{% if cart.item_count > 0 %} js-cart-full{% endif %}{% if settings.cart_type == 'modal' %} js-cart-trigger{% endif %}"
+        aria-haspopup="dialog"
+        aria-label="{{ 'layout.cart.title' | t }}"
+        onclick="event.preventDefault(); openCartDrawer();"
+      >
+        {% render 'icon-cart' %}
+        <div class="cart-count-bubble">
+          <items-count aria-hidden="true">{{ cart.item_count }}</items-count>
+        </div>
+      </a>
+    {%- else -%}
+      <span class="header-trigger__link header-trigger__link--cart js-cart-icon{% if cart.item_count > 0 %} js-cart-full{% endif %}">
+        {% render 'icon-cart' %}
+        <div class="cart-count-bubble">
+          <items-count aria-hidden="true">{{ cart.item_count }}</items-count>
+        </div>
+      </span>
+    {%- endunless -%}
+  </cart-link>
+</div>
 
   <div class="header-navs js-heaver-navs u-clearfix u-hidden@tab-down">
     {%- if section.settings.menu != blank -%}
@@ -680,37 +681,38 @@
           {% endif %}
 
           <li class="secondary-nav__item f-family--{{ settings.type_nav_style }} f-caps--{{ settings.type_nav_capitalize }} f-space--{{ settings.type_nav_letterspace }}">
-            <cart-link>
-              {%- unless request.page_type == 'cart' -%}
-                <a
-                  href="{{ routes.cart_url }}"
-                  class="secondary-nav__link secondary-nav__item--cart secondary-nav__link--{{ section.settings.link_style }}{% if settings.cart_type == 'modal' %} js-cart-trigger{% endif %}"
-                  aria-haspopup="dialog"
-                  aria-label="{{ 'layout.cart.title' | t }}"
-                >
-                  {%- if section.settings.link_style == 'icon' -%}
-                    {% render 'icon-cart' %}
-                    <div class="cart-count-bubble">
-                      <items-count aria-hidden="true">{{ cart.item_count }}</items-count>
-                    </div>
-                  {%- else -%}
-                    {{ 'layout.cart.title' | t }} (<items-count>{{ cart.item_count }}</items-count>)
-                  {%- endif -%}
-                </a>
-              {%- else -%}
-                <span class="secondary-nav__link secondary-nav__item--cart secondary-nav__link--{{ section.settings.link_style }}">
-                  {%- if section.settings.link_style == 'icon' -%}
-                    {% render 'icon-cart' %}
-                    <span class="cart-count-bubble">
-                      <items-count aria-hidden="true">{{ cart.item_count }}</items-count>
-                    </span>
-                  {%- else -%}
-                    {{ 'layout.cart.title' | t }} (<items-count>{{ cart.item_count }}</items-count>)
-                  {%- endif -%}
-                </span>
-              {%- endunless -%}
-            </cart-link>
-          </li>
+  <cart-link>
+    {%- unless request.page_type == 'cart' -%}
+      <a
+        href="{{ routes.cart_url }}"
+        class="secondary-nav__link secondary-nav__item--cart secondary-nav__link--{{ section.settings.link_style }}{% if settings.cart_type == 'modal' %} js-cart-trigger{% endif %}"
+        aria-haspopup="dialog"
+        aria-label="{{ 'layout.cart.title' | t }}"
+        onclick="event.preventDefault(); openCartDrawer();"
+      >
+        {%- if section.settings.link_style == 'icon' -%}
+          {% render 'icon-cart' %}
+          <div class="cart-count-bubble">
+            <items-count aria-hidden="true">{{ cart.item_count }}</items-count>
+          </div>
+        {%- else -%}
+          {{ 'layout.cart.title' | t }} (<items-count>{{ cart.item_count }}</items-count>)
+        {%- endif -%}
+      </a>
+    {%- else -%}
+      <span class="secondary-nav__link secondary-nav__item--cart secondary-nav__link--{{ section.settings.link_style }}">
+        {%- if section.settings.link_style == 'icon' -%}
+          {% render 'icon-cart' %}
+          <span class="cart-count-bubble">
+            <items-count aria-hidden="true">{{ cart.item_count }}</items-count>
+          </span>
+        {%- else -%}
+          {{ 'layout.cart.title' | t }} (<items-count>{{ cart.item_count }}</items-count>)
+        {%- endif -%}
+      </span>
+    {%- endunless -%}
+  </cart-link>
+</li>
 
           {% if settings.search_enable %}
             <li class="secondary-nav__item secondary-nav__item--search f-family--{{ settings.type_nav_style }} f-caps--{{ settings.type_nav_capitalize }} f-space--{{ settings.type_nav_letterspace }}">
