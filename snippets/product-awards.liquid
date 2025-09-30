@@ -1,0 +1,275 @@
+{% comment %}
+  Renders product awards column on the left side of product image
+  
+  Accepts:
+  - product: {Object} Product object
+{% endcomment %}
+
+   
+
+<div class="product-awards-column">
+  <div class="product-awards-wrapper">
+    {% if product.tags contains 'bestseller' or product.title contains 'ENE GIN' %}
+
+         <div class="bestseller-badge">
+        Bestseller
+      </div>
+          {% endif %}
+    
+    <div class="product-award-item">
+      <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Double_Gold_World_Trophy_Awards_2022_Wild_Distillery_Bornholm__Rhubarb_Navy_Strength_png.png?v=1759149077" 
+           alt="Double Gold World Trophy Awards 2022" 
+           class="award-image"
+           loading="lazy"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="product-award-item">
+      <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Navy_strength_bronze_f6d5ad1f-220e-49c9-bf57-6c56b9b021ae.png?v=1759149085" 
+           alt="Navy Strength Bronze Award" 
+           class="award-image"
+           loading="lazy"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="product-award-item">
+      <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/bronze_organic-ene-dry-gin-world-trophy2022_medal_1.png?v=1759149077" 
+           alt="Bronze Organic ENE Dry Gin World Trophy 2022" 
+           class="award-image"
+           loading="lazy"
+           onerror="this.style.display='none'">
+    </div>
+  </div>
+</div>
+
+<style>
+  .product-awards-column {
+    position: absolute;
+    left: -50px;
+    top: 15%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  
+  .product-awards-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product-award-item {
+  
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .product-award-item:hover {
+    transform: scale(1.05);
+  
+  }
+  
+  .award-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+    border-radius: 50%;
+  }
+  
+ 
+  
+  /* Debug styles - if images aren't loading */
+  .product-award-item:empty::before {
+    content: "No Image";
+    font-size: 8px;
+    color: #999;
+    text-align: center;
+  }
+
+ .bestseller-badge {
+  position: absolute;
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 20;
+  color: #0A2D27;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: #ECDFD0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Desktop Large Screens (1440px and above) */
+@media screen and (min-width: 1440px) {
+  .bestseller-badge {
+    top: 12px;
+    left: 440%;
+    padding: 0px 8px;
+    font-size: 13px;
+    padding: 1px 8px;
+  }
+}
+
+/* Desktop Medium Screens (1200px - 1439px) */
+@media screen and (min-width: 1200px) and (max-width: 1439px) {
+  .bestseller-badge {
+    top: 12px;
+    left: 380%;
+    padding: 0px 8px;
+    font-size: 13px;
+    padding: 1px 8px;
+  }
+}
+
+/* Desktop Small Screens (992px - 1199px) */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .bestseller-badge {
+    top: 10px;
+    left: 320%;
+    padding: 0px 6px;
+    font-size: 12px;
+    line-height: 28px;
+    padding: 1px 6px;
+  }
+}
+
+/* Tablet Landscape (768px - 991px) */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .bestseller-badge {
+    top: 8px;
+    left: 760%;
+    padding: 0px 6px;
+    font-size: 11px;
+    line-height: 26px;
+    padding: 1px 6px;
+    gap: 8px;
+  }
+}
+
+/* Tablet Portrait (600px - 767px) */
+@media screen and (min-width: 600px) and (max-width: 768px) {
+  .bestseller-badge {
+    top: 8px;
+    left: 700%;
+    padding: 0px 5px;
+    font-size: 11px;
+    line-height: 24px;
+    padding: 1px 5px;
+    gap: 6px;
+  }
+}
+
+/* Mobile Large (480px - 599px) */
+@media screen and (min-width: 480px) and (max-width: 599px) {
+  .bestseller-badge {
+    top: 6px;
+    left: 650%;
+    padding: 0px 4px;
+    font-size: 10px;
+    line-height: 22px;
+    padding: 1px 4px;
+    gap: 4px;
+    letter-spacing: 0.8px;
+  }
+}
+
+/* Mobile Small (320px - 479px) */
+@media screen and (min-width: 320px) and (max-width: 479px) {
+  .bestseller-badge {
+    top: 5px;
+    left: 470%;
+    padding: 0px 4px;
+    font-size: 9px;
+    line-height: 20px;
+    padding: 1px 4px;
+    gap: 4px;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* Extra Small Mobile (below 320px) */
+@media screen and (max-width: 319px) {
+  .bestseller-badge {
+    top: 4px;
+    left: 370%;
+    padding: 0px 3px;
+    font-size: 8px;
+    line-height: 18px;
+    padding: 1px 3px;
+    gap: 2px;
+    letter-spacing: 0.5px;
+  }
+}
+  
+  /* Responsive Design */
+  @media screen and (max-width: 1200px) {
+    .product-awards-column {
+      left: 0px;
+    }
+  }
+  
+  @media screen and (max-width: 980px) {
+    .product-awards-column {
+      left: 10px;
+      top: -30px;
+      margin: 20px 0;
+      transform: none;
+    }
+    
+    .product-awards-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .product-award-item {
+      width: 60px;
+      height: 60px;
+    }
+    
+    
+  }
+  
+  @media screen and (max-width: 480px) {
+    .product-awards-wrapper {
+      gap: 0;
+    }
+    
+    .product-award-item {
+      width: 50px;
+      height: 50px;
+    }
+    
+   
+  }
+</style>
+
+<script>
+console.log('Product awards snippet loaded');
+// Debug: Check if images are loading
+document.addEventListener('DOMContentLoaded', function() {
+  const images = document.querySelectorAll('.award-image');
+  images.forEach((img, index) => {
+    img.onload = function() {
+      console.log('Award image ' + index + ' loaded successfully');
+    };
+    img.onerror = function() {
+      console.log('Award image ' + index + ' failed to load: ' + img.src);
+    };
+  });
+});
+</script>

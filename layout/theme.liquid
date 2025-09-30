@@ -250,6 +250,8 @@
 .mfp-bg, .overlay, .js-overlay {
     display: none !important;
 }
+
+
 </style>
 
   </head>
@@ -289,6 +291,45 @@
       setTimeout(function () {
         document.body.className = document.body.className.replace('js-theme-loading', 'js-theme-loaded');
       }, 300);
+    </script>
+    
+    <!-- Custom script to ensure image visibility -->
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/products/')) {
+          // Create the image element
+          const imageContainer = document.createElement('div');
+          imageContainer.className = 'product-single__box__block';
+          imageContainer.style.cssText = 'margin: 16px 0;  text-align: center; display: block !important;';
+          
+          const img = document.createElement('img');
+          img.src = 'https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Frame_93.png?v=1759149467';
+          img.alt = 'Product Info';
+          img.style.cssText = 'display: block !important; visibility: visible !important; max-width: 100%; width: 400px; height: auto; margin: 0 ;';
+          
+          imageContainer.appendChild(img);
+          
+          // Find the target location to insert the image
+          setTimeout(function() {
+            const customLiquidBlock = document.querySelector('.product-single__box__block--custom-liquid');
+            const descriptionBlock = document.querySelector('.product-single__box__block--description');
+            
+            if (customLiquidBlock && descriptionBlock) {
+              // Insert between custom-liquid and description blocks
+              customLiquidBlock.parentNode.insertBefore(imageContainer, descriptionBlock);
+            } else if (descriptionBlock) {
+              // Insert before description block
+              descriptionBlock.parentNode.insertBefore(imageContainer, descriptionBlock);
+            } else {
+              // Fallback: append to product box
+              const productBox = document.querySelector('.product-single__box');
+              if (productBox) {
+                productBox.appendChild(imageContainer);
+              }
+            }
+          }, 500);
+        }
+      });
     </script>
 
     {% comment %} TODO: optimize loading templates {% endcomment %}

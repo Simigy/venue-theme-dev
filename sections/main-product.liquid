@@ -1,8 +1,12 @@
+
+
 {% comment %}theme-check-disable TemplateLength, NestedSnippet {% endcomment %}
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
   assign product_form_id = 'product-form-' | append: section.id
 -%}
+
+
 
 <div id="ProductSection-{{ section.id }}">
   <section
@@ -56,27 +60,36 @@
             assign current_media_id = product.selected_or_first_available_variant.featured_media.id
           -%}
 
-          <div class="product-single__media{% if section.settings.container == 'small' %} container--tiny@tab{% endif %}">
-            {%- if section.settings.enable_zoom -%}<product-media-zoom>{%- endif -%}
-            {% render 'product-gallery',
-              product: product,
-              image_ratio: section.settings.product_image_ratio,
-              current_media_id: current_media_id,
-              show_arrows: section.settings.enable_gallery_arrows,
-              thumbnails_aside: thumbnails_aside,
-              thumbnails_ratio: section.settings.thumbnails_ratio,
-              thumbnails_show_border: section.settings.thumbnails_show_border,
-              container: section.settings.container,
-              show_zoom_links: section.settings.enable_zoom
-            %}
-            {%- if section.settings.enable_zoom -%}</product-media-zoom>{%- endif -%}
-          </div>
+          <div class="product-single__media{% if section.settings.container == 'small' %} container--tiny@tab{% endif %}" style="position: relative;">
+  <!-- Your awards column -->
+  {% render 'product-awards', product: product %}
+  
+  <!-- Existing media gallery -->
+  {%- if section.settings.enable_zoom -%}<product-media-zoom>{%- endif -%}
+  {% render 'product-gallery',
+    product: product,
+    image_ratio: section.settings.product_image_ratio,
+    current_media_id: current_media_id,
+    show_arrows: section.settings.enable_gallery_arrows,
+    thumbnails_aside: thumbnails_aside,
+    thumbnails_ratio: section.settings.thumbnails_ratio,
+    thumbnails_show_border: section.settings.thumbnails_show_border,
+    container: section.settings.container,
+    show_zoom_links: section.settings.enable_zoom
+  %}
+  {%- if section.settings.enable_zoom -%}</product-media-zoom>{%- endif -%}
+</div>
+          <!-- Rest of your existing code continues below... -->
+
+          <!-- Rest of your existing code continues below... -->
 
           <div class="product-single__primary-blocks">
             {%- if section.settings.enable_sticky_content -%}
               <sticky-scroll>
             {%- endif -%}
 
+            <!-- Image removed as requested -->
+            
             <div class="product-single__box">
               {%- liquid
                 assign form_id = 'product-form-' | append: section.id
@@ -131,6 +144,9 @@
 
                   {%- case block.type -%}
                     {%- when '@app' -%}
+
+
+                      
                       <div
                         class="product-single__box__block product-single__box__block--{{ block.type }}"
                         {{ block.shopify_attributes }}
@@ -157,7 +173,46 @@
                         {{ block.shopify_attributes }}
                       >
                         <h1 class="product-single__title">{{ product.title }}</h1>
+                        
+                        <!-- 4 boxes above price -->
+                  <div class="product-tags" style="display: flex; gap: 10px; margin-top: 9px; flex-wrap: wrap;">
+                          <div class="product-tag" style="border: 1px solid #ccc; border-radius: 4px; padding: 5px 10px; font-size: 0.75rem;  color:#013D35;
+font-family: Poppins;
+font-style: normal;
+font-weight: 400;
+line-height: 18px; /* 150% */
+letter-spacing: 1px; ">ENE GIN</div>
+                          <div class="product-tag" style="border: 1px solid #ccc; border-radius: 4px; padding: 5px 10px; font-size: 0.75rem;  color:#013D35;
+font-family: Poppins;
+font-style: normal;
+font-weight: 400;
+line-height: 18px; /* 150% */
+letter-spacing: 1px;">vol. 40%</div>
+                          <div class="product-tag" style="border: 1px solid #ccc; border-radius: 4px; padding: 5px 10px; font-size: 0.75rem;  color:#013D35;
+font-family: Poppins;
+font-style: normal;
+font-weight: 400;
+line-height: 18px; /* 150% */
+letter-spacing: 1px;">70cl</div>
+                          <div class="product-tag" style="border: 1px solid #ccc; border-radius: 4px; padding: 5px 10px; font-size: 0.75rem;  color:#013D35;
+font-family: Poppins;
+font-style: normal;
+font-weight: 400;
+line-height: 18px; /* 150% */
+letter-spacing: 1px;">øko</div>
+                        </div>
                       </div>
+
+                      <style>
+.product-tag{
+  color:#013D35;
+font-family: Poppins;
+font-style: normal;
+font-weight: 400;
+line-height: 18px; /* 150% */
+letter-spacing: 1px;
+}
+                        </style>
 
                     {%- when 'vendor' -%}
                       <style type="text/css">
@@ -203,6 +258,11 @@
                           label_type: block.settings.price_label_discount_type,
                           label_color: block.settings.price_label_discount_color
                         %}
+                        
+                        <!-- Image below price -->
+                        <div class="product-trust-badge" style="margin-top: 15px;">
+                          <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Image_3x_0c849b38-984a-4c7e-b0d8-35cf6a9e35fc.png?v=1759149492" alt="Trust Badge" style="max-width: 100%; height: auto;">
+                        </div>
                       </div>
 
                     {%- when 'sku' -%}
@@ -237,7 +297,29 @@
                         %}
                         <script src="{{ 'cart-free-shipping-bar.js' | asset_url }}" type="module"></script>
                       </div>
+{%- when 'tab' -%}
+  {%- assign page = pages[block.settings.tab_content] -%}
+  {%- unless previous_block_is_tab -%}
+    <div class="product-single__box__block product-single__box__block--{{ block.type }}">
 
+      <!-- ADD IMAGE FOR BESKRIVELSE TAB -->
+      {%- if block.settings.title == 'Beskrivelse' or block.id == 'description' -%}
+        <div style="text-align: center; margin: 20px 0;">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Frame_93.png" 
+            alt="Product features" 
+            width="600"
+            style="max-width: 100%;"
+          >
+        </div>
+      {%- endif -%}
+      
+      {%- if block.settings.description_collapsible_tab -%}
+        <accordion-group>
+      {%- endif -%}
+  {%- endunless -%}
+
+                      
                     {%- when 'description' -%}
                       {%- if block.settings.description_collapsible_tab == false
                         or previous_block_is_tab == false
@@ -262,6 +344,8 @@
                         %}
 
                       {%- else -%}
+
+                      
                         <div class="rte">
                           {{ product.description }}
                         </div>
@@ -777,6 +861,9 @@
                       </div>
 
                     {%- when 'link' -%}
+
+
+                      
                       <div
                         class="product-single__box__block product-single__box__block--{{ block.type }}"
                         {{ block.shopify_attributes }}
@@ -813,6 +900,8 @@
                           bottom: block.settings.bottom
                         %}
                       </div>
+
+                      
 
                     {%- when 'line-item' -%}
                       <div
@@ -916,8 +1005,22 @@
                       {%- assign page = pages[block.settings.tab_content] -%}
                       {%- unless previous_block_is_tab -%}
                         <div class="product-single__box__block product-single__box__block--{{ block.type }}">
-                          <accordion-group>
+
+                          <!-- ADD THE IMAGE HERE - ABOVE THE ACCORDION -->
+                    <div class="product-description-image custom-static-image" style="margin-bottom: 20px; text-align: center;">
+  <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Frame_93.png?v=1759149467" 
+       alt="Product Information" 
+       style="max-width: 100%; height: auto;">
+</div>
+
+
+                          
+                          {%- if block.settings.description_collapsible_tab -%}
+                            <accordion-group>
+                          {%- endif -%}
                       {%- endunless -%}
+
+                          <accordion-group>
 
                       {% render 'pdp-block-tab',
                         block-id: block.id,
@@ -1274,7 +1377,12 @@
                         description: product.description
                       %}
 
+
+                      
                     {%- else -%}
+
+
+                    
                       <div class="rte">
                         {{ product.description }}
                       </div>
@@ -1448,6 +1556,16 @@
                     >
                       {{ block.settings.custom_liquid }}
                     </div>
+                    
+                    {% comment %} Image between custom-liquid and description {% endcomment %}
+                    <div class="product-single__box__block" style="padding: 20px 0; text-align: center;">
+                      <img 
+                        src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Frame_93.png" 
+                        alt="Product image" 
+                        width="800"
+                        height="auto"
+                      >
+                    </div>
 
                   {%- when 'callout' -%}
                     <div
@@ -1479,6 +1597,11 @@
     {{ product.media | where: 'media_type', 'model' | json }}
   </script>
 {% endunless %}
+
+
+
+
+
 
 <script>
   //set global CSS variable for primary blocks height
@@ -1584,6 +1707,24 @@
     assign seo_media = product.featured_media
   endif
 -%}
+
+<style>
+.price__note , .product-form__swatch , .product-form__qty , .product-form__spacer--has-border  {
+      display: none;
+}
+/* Hide ULs only in product section */
+.product-single__box ul {
+    display: none !important;
+}
+
+.custom-static-image img {
+  content: url("https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Frame_93.png?v=1759149467") !important;
+  margin: 0;
+}
+
+
+</style>  
+
 
 <script type="application/ld+json">
   {

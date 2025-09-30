@@ -101,11 +101,15 @@
   }
   {% endif %}
 
+  body[data-heading-border=true] .product-single__title {
+     margin-bottom:0;
+}
 
   .header,
   .header__logo,
   .header-trigger {
     height: calc({{ logo_size }}px + {{ section.settings.logo_spacing | times: 7 }}px);
+    background: #ECDFD0;
   }
   .header__logo-img {
     max-height: {{ logo_size }}px;
