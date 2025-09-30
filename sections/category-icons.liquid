@@ -1,0 +1,695 @@
+{% comment %}
+  Category Icons Section
+  Displays category icons with links under the navbar
+{% endcomment %}
+
+{%- style -%}
+/* === FORCE OVERRIDE ALL STYLES === */
+.category-icons,
+section.category-icons,
+.shopify-section .category-icons {
+  background-color: {{ section.settings.background_color }} !important;
+  padding: 30px 0 0 0 !important;
+  margin: 0 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Override any theme or section settings */
+.category-icons {
+  padding-top: 30px !important;
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+/* Force 30px padding on ALL screen sizes */
+@media screen and (min-width: 1px) {
+  .category-icons,
+  section.category-icons,
+  .shopify-section .category-icons {
+    padding-top: 30px !important;
+    padding-bottom: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+}
+
+.category-icons__container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 15px !important;
+}
+
+.category-icons__grid {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 24px !important;
+  flex-wrap: wrap !important;
+}
+
+.category-icons__item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.category-icons__label,
+.category-icons__item p {
+  display: block !important;
+  text-align: center !important;
+  margin: 8px auto 0 auto !important;
+  width: 100% !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+}
+
+/* Responsive breakpoints with !important */
+@media screen and (max-width: 1200px) and (min-width: 768px) {
+  .category-icons__item:nth-child(n+6) { 
+    display: none !important; 
+  }
+  
+  /* Force logo to left on large screens where icons are hidden */
+  .shopify-section-header .header {
+    justify-content: flex-start !important;
+  }
+  
+  .shopify-section-header .header__logo {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    text-align: left !important;
+  }
+}
+
+/* Large screens (1200px+) - ensure logo stays left */
+@media screen and (min-width: 1200px) {
+  .shopify-section-header .header {
+    justify-content: flex-start !important;
+  }
+  
+  .shopify-section-header .header__logo {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    text-align: left !important;
+  }
+  
+}
+
+@media screen and (max-width: 767px) {
+  .category-icons__grid {
+    overflow: hidden !important;
+    position: relative !important;
+  }
+  
+  .category-icons__item {
+    flex: 0 0 33.333% !important;
+    transition: transform 0.5s ease-in-out !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .category-icons__label,
+  .category-icons__item p {
+    font-size: 12px !important;
+  }
+}
+
+/* Specific fix for Collaborations label */
+.collaborations-label,
+.collaborations-item p {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin: 8px auto 0 auto !important;
+  width: 100% !important;
+}
+
+.collaborations-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+/* Reduce navbar height to prevent overlap - keep logo positioning */
+.shopify-section-header .header,
+.shopify-section-header .header-trigger {
+  height: 60px !important;
+  min-height: 60px !important;
+}
+
+.shopify-section-header .header__logo {
+  height: 60px !important;
+  min-height: 60px !important;
+  /* Keep original positioning - don't change alignment */
+}
+
+.shopify-section-header .header__logo-img {
+  max-height: 40px !important;
+  /* Keep logo at left position for @1440px */
+}
+
+.shopify-section-header .header__logo-ratio-box {
+  height: 40px !important;
+}
+
+/* Force logo to left position on large screens */
+.shopify-section-header .header {
+  justify-content: flex-start !important;
+}
+
+.shopify-section-header .header__logo {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+
+/* Ensure header is not centered */
+.shopify-section-header .header.header--center {
+  justify-content: flex-start !important;
+}
+
+.shopify-section-header .header.header--center .header__logo {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* === Base wrapper (applies to ALL icons) === */
+.category-icons__image-wrapper,
+.category-icons__image-wrapper--multi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: {{ section.settings.icon_border_radius }}%;
+  background: {{ section.settings.icon_background }};
+  width: {{ section.settings.icon_size }}px;
+  height: {{ section.settings.icon_size }}px;
+  margin-bottom: {{ section.settings.label_spacing }}px;
+  border: {{ section.settings.icon_border_width }}px solid {{ section.settings.icon_border_color }};
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* === Image inside wrapper === */
+.category-icons__image {
+  width: 75%;          
+  height: 75%;
+  object-fit: contain; 
+}
+
+.category-icons__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.category-icons__item p {
+  display: block;
+  text-align: center;
+  margin: 8px auto 0 auto; 
+  width: 100%;
+  font-size: {{ section.settings.font_size }}px;
+  font-weight: {{ section.settings.font_weight }};
+  color: {{ section.settings.text_color }};
+  line-height: 1.2;
+}
+
+.category-icons__label {
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+/* Multi-image tweaks */
+.category-icons__image-wrapper--multi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px; 
+}
+
+.category-icons__image-wrapper--multi .category-icons__image {
+  flex: 1;            
+  max-width: 35%;      
+  height: auto;
+  object-fit: contain;
+}
+
+/* === Per-icon desktop paddings === */
+.category-icons__item:nth-child(1) .category-icons__image-wrapper { padding: {{ section.settings.icon1_padding_desktop }}; }
+.category-icons__item:nth-child(2) .category-icons__image-wrapper { padding: {{ section.settings.icon2_padding_desktop }}; }
+.category-icons__item:nth-child(3) .category-icons__image-wrapper { padding: {{ section.settings.icon3_padding_desktop }}; }
+.category-icons__item:nth-child(4) .category-icons__image-wrapper { padding: {{ section.settings.icon4_padding_desktop }}; }
+.category-icons__item:nth-child(5) .category-icons__image-wrapper { padding: {{ section.settings.icon5_padding_desktop }}; }
+.category-icons__item:nth-child(6) .category-icons__image-wrapper { padding: {{ section.settings.icon6_padding_desktop }}; }
+.category-icons__item:nth-child(7) .category-icons__image-wrapper { padding: {{ section.settings.icon7_padding_desktop }}; }
+
+/* Hide some icons at mid breakpoints */
+@media screen and (max-width: 1200px) and (min-width: 768px) {
+  .category-icons__item:nth-child(n+6) { 
+    display: none; 
+  } /* show first 5 only */
+}
+
+/* Mobile carousel (<= 767px) */
+@media screen and (max-width: 767px) {
+  .category-icons__grid {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .category-icons__item {
+    flex: 0 0 33.333%; /* 3 icons visible */
+    transition: transform 0.5s ease-in-out;
+    text-align: center;
+  }
+
+  .category-icons__label {
+    text-align: center; /* ensures proper label alignment */
+  }
+}
+
+/* Fix label alignment for "Collaborations" */
+@media screen and (max-width: 600px) {
+  .category-icons__item p.category-icons__label {
+    display: block !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+}
+{%- endstyle -%}
+
+
+<!-- SIMPLE TEST TO SEE IF SECTION LOADS -->
+<div style="background: red; color: white; padding: 20px; font-size: 24px; text-align: center;">
+  🚨 CATEGORY ICONS SECTION IS LOADING! 🚨
+</div>
+
+<style>
+body {
+  border-top: 10px solid lime !important;
+}
+</style>
+
+<script>
+alert('SECTION IS WORKING!');
+console.log('SECTION IS WORKING!');
+</script>
+
+<section class="category-icons" aria-label="Product Categories" style="margin: 0 !important; padding-top: 30px !important; padding-bottom: 0 !important;">
+  <div class="category-icons__container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+    <div class="category-icons__grid carousel-container" role="navigation" aria-label="Browse product categories" style="display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap;">
+      
+    <!-- Bestsellers -->
+<a href="{{ collections.bestsellers.url | default: '/collections/bestsellers' }}" 
+   class="category-icons__item" 
+   aria-label="Shop Bestsellers collection"
+   style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+  
+  <div class="category-icons__image-wrapper category-icons__image-wrapper--multi">
+    <img 
+      src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/image_18.png?v=1759226409" 
+      alt="Bestsellers 1"
+      class="category-icons__image"
+      loading="lazy"
+    >
+    <img 
+      src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/image_15_1.png?v=1759250825"
+      alt="Bestsellers 2"
+      class="category-icons__image"
+      loading="lazy"
+    >
+    <img 
+      src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/image_17.png?v=1759226408"
+      alt="Bestsellers 3"
+      class="category-icons__image"
+      loading="lazy"
+    >
+  </div>
+        <p class="category-icons__label" style="display: block !important; text-align: center !important; margin: 8px auto 0 auto !important; width: 100% !important;">Bestsellers</p>
+      </a>
+      
+      <!-- Gin -->
+      <a href="{{ collections.gin.url | default: '/collections/gin' }}" class="category-icons__item" aria-label="Shop Gin collection" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <div class="category-icons__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/image_18.png?v=1759226409" 
+            alt="Gin"
+            class="category-icons__image"
+            loading="lazy"
+            onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:12px;color:#999;\'>🍸</div>'"
+          >
+        </div>
+        <p class="category-icons__label" style="display: block !important; text-align: center !important; margin: 8px auto 0 auto !important; width: 100% !important;">Gin</p>
+      </a>
+      
+      <!-- Vodka -->
+      <a href="{{ collections.vodka.url | default: '/collections/vodka' }}" class="category-icons__item" aria-label="Shop Vodka collection">
+        <div class="category-icons__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/image_15_1.png?v=1759250825" 
+            alt="Vodka"
+            class="category-icons__image"
+            loading="lazy"
+            onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:12px;color:#999;\'>🍺</div>'"
+          >
+        </div>
+        <p class="category-icons__label">Vodka</p>
+      </a>
+      
+      <!-- Akvavit -->
+      <a href="{{ collections.akvavit.url | default: '/collections/akvavit' }}" class="category-icons__item" aria-label="Shop Akvavit collection">
+        <div class="category-icons__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Aquavit.png?v=1759226407" 
+            alt="Akvavit"
+            class="category-icons__image"
+            loading="lazy"
+            onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:12px;color:#999;\'>🥃</div>'"
+          >
+        </div>
+        <p class="category-icons__label">Akvavit</p>
+      </a>
+      
+      <!-- Gin Likør -->
+      <a href="{{ collections['gin-likor'].url | default: '/collections/gin-likor' }}" class="category-icons__item" aria-label="Shop Gin Likør collection">
+        <div class="category-icons__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/image_7.png?v=1759226407" 
+            alt="Gin Likør"
+            class="category-icons__image"
+            loading="lazy"
+            onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:12px;color:#999;\'>🍷</div>'"
+          >
+        </div>
+        <p class="category-icons__label">Gin Likør</p>
+      </a>
+      
+      <!-- Hornsleth -->
+      <a href="{{ collections.hornsleth.url | default: '/collections/hornsleth' }}" class="category-icons__item" aria-label="Shop Hornsleth collection">
+        <div class="category-icons__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/image_17.png?v=1759226408" 
+            alt="Hornsleth"
+            class="category-icons__image"
+            loading="lazy"
+            onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:12px;color:#999;\'>🎨</div>'"
+          >
+        </div>
+        <p class="category-icons__label">Hornsleth</p>
+      </a>
+      
+      <!-- Collaborations -->
+      <a href="{{ collections.collaborations.url | default: '/collections/collaborations' }}" class="category-icons__item collaborations-item" aria-label="Shop Collaborations collection" style="display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important;">
+        <div class="category-icons__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/image_11.png?v=1759226408" 
+            alt="Collaborations"
+            class="category-icons__image"
+            loading="lazy"
+            onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:12px;color:#999;\'>🤝</div>'"
+          >
+        </div>
+        <p class="category-icons__label collaborations-label" style="display: flex !important; justify-content: center !important; align-items: center !important; text-align: center !important; margin: 8px auto 0 auto !important; width: 100% !important;">Collaborations</p>
+      </a>
+      
+    </div>
+  </div>
+</section>
+
+<script>
+// Test if script is running at all
+alert('🚨 CATEGORY ICONS SCRIPT IS RUNNING!');
+console.log('🚨 CATEGORY ICONS SCRIPT IS RUNNING!');
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 Category Icons - DOM Loaded');
+  alert('🚀 DOM Loaded - Looking for section...');
+  
+  // Force apply styles with JavaScript
+  const section = document.querySelector('.category-icons');
+  console.log('Section found:', section);
+  
+  if (!section) {
+    alert('❌ SECTION NOT FOUND!');
+    console.error('❌ SECTION NOT FOUND! Available sections:', document.querySelectorAll('section'));
+    return;
+  }
+  
+  alert('✅ SECTION FOUND! Applying 30px padding...');
+  
+  const container = document.querySelector('.category-icons__container');
+  const grid = document.querySelector('.category-icons__grid');
+  const items = document.querySelectorAll('.category-icons__item');
+  const labels = document.querySelectorAll('.category-icons__label');
+  
+  if (section) {
+    // Function to force 30px padding
+    function force30pxPadding() {
+      // Remove all existing padding styles first
+      section.style.removeProperty('padding');
+      section.style.removeProperty('padding-top');
+      section.style.removeProperty('padding-bottom');
+      section.style.removeProperty('padding-left');
+      section.style.removeProperty('padding-right');
+      
+      // Force set 30px padding
+      section.style.setProperty('padding-top', '30px', 'important');
+      section.style.setProperty('padding-bottom', '0px', 'important');
+      section.style.setProperty('padding-left', '0px', 'important');
+      section.style.setProperty('padding-right', '0px', 'important');
+      section.style.setProperty('margin', '0px', 'important');
+      
+      const computedPadding = window.getComputedStyle(section).paddingTop;
+      console.log('🔥 NUCLEAR OPTION - Padding forced to 30px. Actual value:', computedPadding);
+      
+      // If it's still not 30px, log what's overriding it
+      if (computedPadding !== '30px') {
+        console.error('❌ PADDING STILL NOT 30PX! Current value:', computedPadding);
+        console.log('Section classes:', section.className);
+        console.log('Section ID:', section.id);
+        console.log('Parent element:', section.parentElement);
+      }
+    }
+    
+    // Apply immediately
+    force30pxPadding();
+    
+    // Apply repeatedly to override any late-loading styles
+    setTimeout(force30pxPadding, 100);
+    setTimeout(force30pxPadding, 500);
+    setTimeout(force30pxPadding, 1000);
+    setTimeout(force30pxPadding, 2000);
+    
+    // Keep checking every 2 seconds for the first 10 seconds
+    let checkCount = 0;
+    const intervalId = setInterval(() => {
+      force30pxPadding();
+      checkCount++;
+      if (checkCount >= 5) {
+        clearInterval(intervalId);
+        console.log('🏁 Stopped continuous padding enforcement after 10 seconds');
+      }
+    }, 2000);
+  }
+  
+  // Reduce header height but keep logo positioning (left for @1440px)
+  const header = document.querySelector('.shopify-section-header .header');
+  const headerLogo = document.querySelector('.shopify-section-header .header__logo');
+  const headerTrigger = document.querySelector('.shopify-section-header .header-trigger');
+  const headerLogoImg = document.querySelector('.shopify-section-header .header__logo-img');
+  const headerLogoRatio = document.querySelector('.shopify-section-header .header__logo-ratio-box');
+  
+  if (header) {
+    header.style.cssText += 'height: 60px !important; min-height: 60px !important; justify-content: flex-start !important;';
+    console.log('✅ Header height reduced - logo forced to left');
+  }
+  
+  if (headerLogo) {
+    // Reduce height and force to left position
+    headerLogo.style.height = '60px';
+    headerLogo.style.minHeight = '60px';
+    headerLogo.style.paddingTop = '10px';
+    headerLogo.style.paddingBottom = '10px';
+    headerLogo.style.marginLeft = '0';
+    headerLogo.style.marginRight = 'auto';
+    headerLogo.style.textAlign = 'left';
+    console.log('✅ Logo positioned to left');
+  }
+  
+  if (headerTrigger) {
+    headerTrigger.style.cssText += 'height: 60px !important; min-height: 60px !important;';
+  }
+  
+  if (headerLogoImg) {
+    headerLogoImg.style.maxHeight = '40px';
+    // Keep original positioning
+  }
+  
+  if (headerLogoRatio) {
+    headerLogoRatio.style.height = '40px';
+  }
+  
+  if (grid) {
+    grid.style.cssText = 'display: flex !important; justify-content: center !important; align-items: center !important; gap: 24px !important; flex-wrap: wrap !important;';
+  }
+  
+  items.forEach(item => {
+    item.style.cssText = 'display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important;';
+  });
+  
+  labels.forEach(label => {
+    label.style.cssText = 'display: block !important; text-align: center !important; margin: 8px auto 0 auto !important; width: 100% !important;';
+  });
+  
+  // Special fix for Collaborations label
+  const collaborationsLabel = document.querySelector('.collaborations-label');
+  const collaborationsItem = document.querySelector('.collaborations-item');
+  
+  if (collaborationsLabel) {
+    collaborationsLabel.style.cssText = 'display: flex !important; justify-content: center !important; align-items: center !important; text-align: center !important; margin: 8px auto 0 auto !important; width: 100% !important;';
+    console.log('✅ Collaborations label centered with flexbox');
+  }
+  
+  if (collaborationsItem) {
+    collaborationsItem.style.cssText = 'display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important;';
+    console.log('✅ Collaborations item centered');
+  }
+  
+  // Responsive behavior
+  function handleResize() {
+    const width = window.innerWidth;
+    
+    // Hide icons 6-7 on medium screens
+    if (width <= 1200 && width >= 768) {
+      items.forEach((item, index) => {
+        if (index >= 5) {
+          item.style.display = 'none !important';
+        }
+      });
+    } else {
+      items.forEach(item => {
+        item.style.display = 'flex !important';
+      });
+    }
+    
+    // Mobile carousel
+    if (width <= 767) {
+      let currentIndex = 0;
+      const totalSets = Math.ceil(items.length / 3);
+      
+      function showNextSet() {
+        currentIndex = (currentIndex + 1) % totalSets;
+        items.forEach((item, i) => {
+          const setIndex = Math.floor(i / 3);
+          const offset = (setIndex - currentIndex) * 100;
+          item.style.transform = `translateX(${offset}%)`;
+        });
+      }
+      
+      setInterval(showNextSet, 5000);
+    }
+  }
+  
+  handleResize();
+  window.addEventListener('resize', handleResize);
+  
+  console.log('✅ Force fixes applied successfully');
+});
+</script>
+{% comment %}{% endif %}{% endcomment %}
+
+{% schema %}
+{
+  "name": "Category Icons",
+  "settings": [
+    { "type": "checkbox", "id": "show_section", "label": "Show Section", "default": true },
+    { "type": "color", "id": "background_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#333333" },
+
+    { "type": "header", "content": "Desktop Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top Padding (Desktop)", "min": 0, "max": 200, "step": 4, "default": 125, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom Padding (Desktop)", "min": 0, "max": 200, "step": 4, "default": 32, "unit": "px" },
+    
+    { "type": "header", "content": "Tablet Padding" },
+    { "type": "range", "id": "padding_top_tablet", "label": "Top Padding (Tablet)", "min": 0, "max": 150, "step": 4, "default": 80, "unit": "px" },
+    { "type": "range", "id": "padding_bottom_tablet", "label": "Bottom Padding (Tablet)", "min": 0, "max": 150, "step": 4, "default": 24, "unit": "px" },
+    
+    { "type": "header", "content": "Mobile Padding" },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top Padding (Mobile)", "min": 0, "max": 100, "step": 4, "default": 60, "unit": "px" },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom Padding (Mobile)", "min": 0, "max": 100, "step": 4, "default": 20, "unit": "px" },
+    
+    { "type": "header", "content": "Small Mobile Padding" },
+    { "type": "range", "id": "padding_top_small_mobile", "label": "Top Padding (Small Mobile)", "min": 0, "max": 80, "step": 4, "default": 40, "unit": "px" },
+    { "type": "range", "id": "padding_bottom_small_mobile", "label": "Bottom Padding (Small Mobile)", "min": 0, "max": 80, "step": 4, "default": 16, "unit": "px" },
+
+    { "type": "header", "content": "Spacing - All Breakpoints" },
+    { "type": "range", "id": "large_icon_spacing", "label": "Icon Spacing (Large Desktop)", "min": 0, "max": 100, "step": 2, "default": 32, "unit": "px" },
+    { "type": "range", "id": "icon_spacing", "label": "Icon Spacing (Desktop)", "min": 0, "max": 100, "step": 2, "default": 24, "unit": "px" },
+    { "type": "range", "id": "medium_icon_spacing", "label": "Icon Spacing (Small Desktop)", "min": 0, "max": 80, "step": 2, "default": 20, "unit": "px" },
+    { "type": "range", "id": "tablet_icon_spacing", "label": "Icon Spacing (Tablet)", "min": 0, "max": 60, "step": 2, "default": 20, "unit": "px" },
+    { "type": "range", "id": "mobile_icon_spacing", "label": "Icon Spacing (Mobile)", "min": 0, "max": 40, "step": 2, "default": 16, "unit": "px" },
+    { "type": "range", "id": "small_mobile_icon_spacing", "label": "Icon Spacing (Small Mobile)", "min": 0, "max": 30, "step": 2, "default": 12, "unit": "px" },
+    { "type": "range", "id": "xs_mobile_icon_spacing", "label": "Icon Spacing (XS Mobile)", "min": 0, "max": 20, "step": 2, "default": 8, "unit": "px" },
+
+    { "type": "header", "content": "Icon Sizes - All Breakpoints" },
+    { "type": "range", "id": "icon_size", "label": "Icon Size (Desktop)", "min": 20, "max": 200, "step": 2, "default": 80, "unit": "px" },
+    { "type": "range", "id": "tablet_icon_size", "label": "Icon Size (Tablet)", "min": 20, "max": 120, "step": 2, "default": 70, "unit": "px" },
+    { "type": "range", "id": "mobile_icon_size", "label": "Icon Size (Mobile)", "min": 20, "max": 100, "step": 2, "default": 60, "unit": "px" },
+    { "type": "range", "id": "small_mobile_icon_size", "label": "Icon Size (Small Mobile)", "min": 20, "max": 80, "step": 2, "default": 50, "unit": "px" },
+    { "type": "range", "id": "xs_mobile_icon_size", "label": "Icon Size (XS Mobile)", "min": 20, "max": 60, "step": 2, "default": 45, "unit": "px" },
+
+    { "type": "header", "content": "Label Spacing - All Breakpoints" },
+    { "type": "range", "id": "label_spacing", "label": "Label Spacing (Desktop)", "min": 0, "max": 50, "step": 2, "default": 12, "unit": "px" },
+    { "type": "range", "id": "tablet_label_spacing", "label": "Label Spacing (Tablet)", "min": 0, "max": 40, "step": 2, "default": 10, "unit": "px" },
+    { "type": "range", "id": "mobile_label_spacing", "label": "Label Spacing (Mobile)", "min": 0, "max": 30, "step": 2, "default": 8, "unit": "px" },
+    { "type": "range", "id": "xs_mobile_label_spacing", "label": "Label Spacing (XS Mobile)", "min": 0, "max": 20, "step": 2, "default": 6, "unit": "px" },
+
+    { "type": "header", "content": "Font Sizes - All Breakpoints" },
+    { "type": "range", "id": "font_size", "label": "Font Size (Desktop)", "min": 8, "max": 24, "step": 1, "default": 14, "unit": "px" },
+    { "type": "range", "id": "tablet_font_size", "label": "Font Size (Tablet)", "min": 8, "max": 20, "step": 1, "default": 13, "unit": "px" },
+    { "type": "range", "id": "mobile_font_size", "label": "Font Size (Mobile)", "min": 8, "max": 18, "step": 1, "default": 12, "unit": "px" },
+    { "type": "range", "id": "small_mobile_font_size", "label": "Font Size (Small Mobile)", "min": 8, "max": 16, "step": 1, "default": 11, "unit": "px" },
+    { "type": "range", "id": "xs_mobile_font_size", "label": "Font Size (XS Mobile)", "min": 8, "max": 14, "step": 1, "default": 10, "unit": "px" },
+
+    { "type": "range", "id": "font_weight", "label": "Font Weight", "min": 300, "max": 900, "step": 100, "default": 500 },
+
+    { "type": "header", "content": "Icon Styling" },
+    { "type": "color", "id": "icon_background", "label": "Icon Background", "default": "#ECDFD0" },
+    { "type": "range", "id": "icon_border_radius", "label": "Icon Border Radius (%)", "min": 0, "max": 50, "step": 1, "default": 50, "unit": "%" },
+    { "type": "range", "id": "icon_border_width", "label": "Icon Border Width", "min": 0, "max": 10, "step": 1, "default": 0, "unit": "px" },
+    { "type": "color", "id": "icon_border_color", "label": "Icon Border Color", "default": "#000000" },
+
+    { "type": "header", "content": "Individual Icon Paddings" },
+    { "type": "text", "id": "icon1_padding_desktop", "label": "Icon 1 Padding (Desktop)", "default": "7px 18px 12px 16px" },
+    { "type": "text", "id": "icon1_padding_mobile", "label": "Icon 1 Padding (Mobile)", "default": "7px 12px" },
+    { "type": "text", "id": "icon2_padding_desktop", "label": "Icon 2 Padding (Desktop)", "default": "7px 27px 7px 26px" },
+    { "type": "text", "id": "icon2_padding_mobile", "label": "Icon 2 Padding (Mobile)", "default": "6px 18px" },
+    { "type": "text", "id": "icon3_padding_desktop", "label": "Icon 3 Padding (Desktop)", "default": "9px 0 10px 0" },
+    { "type": "text", "id": "icon3_padding_mobile", "label": "Icon 3 Padding (Mobile)", "default": "7px 12px" },
+    { "type": "text", "id": "icon4_padding_desktop", "label": "Icon 4 Padding (Desktop)", "default": "4.367px 0" },
+    { "type": "text", "id": "icon4_padding_mobile", "label": "Icon 4 Padding (Mobile)", "default": "7px 12px" },
+    { "type": "text", "id": "icon5_padding_desktop", "label": "Icon 5 Padding (Desktop)", "default": "12px 28px 11px 28px" },
+    { "type": "text", "id": "icon5_padding_mobile", "label": "Icon 5 Padding (Mobile)", "default": "7px 12px" },
+    { "type": "text", "id": "icon6_padding_desktop", "label": "Icon 6 Padding (Desktop)", "default": "8px 26px 7.083px 26px" },
+    { "type": "text", "id": "icon6_padding_mobile", "label": "Icon 6 Padding (Mobile)", "default": "7px 12px" },
+    { "type": "text", "id": "icon7_padding_desktop", "label": "Icon 7 Padding (Desktop)", "default": "10px 16px" },
+    { "type": "text", "id": "icon7_padding_mobile", "label": "Icon 7 Padding (Mobile)", "default": "7px 12px" }
+  ],
+  "presets": [
+    { "name": "Category Icons" }
+  ]
+}
+
+
+{% endschema %}

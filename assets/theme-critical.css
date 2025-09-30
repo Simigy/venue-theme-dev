@@ -2492,6 +2492,15 @@ body:not(.header-stuck):not([header-menu-open]) [data-transparent-header='true']
 body:not(.header-stuck):not([header-menu-open]) [data-transparent-header='true']:not(.header--has-transparent-divider) {
   border-bottom: 0 none; }
 
+body:not(.header-stuck):not([header-menu-open]) [data-transparent-header='true'].header:not(:hover) {
+    background-color: #ECDFD0 !important;
+    
+}
+body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .primary-nav__link, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .secondary-nav__link, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .header__logo-link--text, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .header-trigger__link {
+  color: #013D35 !important;
+}
+
+
 body:not(.header-stuck):not([header-menu-open]) [data-transparent-header='true'].header:not(:hover) .primary-nav__link,
 body:not(.header-stuck):not([header-menu-open]) [data-transparent-header='true'].header:not(:hover) .secondary-nav__link,
 body:not(.header-stuck):not([header-menu-open]) [data-transparent-header='true'].header:not(:hover) .header__logo-link--text,

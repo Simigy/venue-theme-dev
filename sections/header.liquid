@@ -121,7 +121,14 @@
   .header.header--center .header__logo {
     padding: {{ section.settings.logo_spacing | times: 3 }}px 0;
   }
+body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header:not(:hover) {
+    background-color: #ECDFD0 !important;
+   
+}
 
+body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .primary-nav__link, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .secondary-nav__link, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .header__logo-link--text, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .header-trigger__link {
+     color: #013D35;
+}
   @media screen and (max-width: 767px) {
     .header,
     .header__logo,
@@ -738,7 +745,10 @@
       </ul>
     </nav>
   </div>
+
+  
 </header>
+
 <script>
   theme.setUpHeaderResizeObservers();
 </script>
