@@ -9,29 +9,74 @@
 section.category-icons,
 .shopify-section .category-icons {
   background-color: {{ section.settings.background_color }} !important;
-  padding: 30px 0 0 0 !important;
   margin: 0 !important;
   position: relative !important;
   z-index: 1 !important;
 }
 
-/* Override any theme or section settings */
-.category-icons {
-  padding-top: 30px !important;
-  padding-bottom: 0px !important;
+/* Responsive padding-top for different screen sizes */
+/* Default for 1440px and above */
+.category-icons,
+section.category-icons,
+.shopify-section .category-icons {
+  padding-top: 80px !important;
+  padding-bottom: 12px !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
 
-/* Force 30px padding on ALL screen sizes */
-@media screen and (min-width: 1px) {
+/* 1200px, 1024px, 992px, 900px */
+@media screen and (max-width: 1439px) and (min-width: 788px) {
   .category-icons,
   section.category-icons,
   .shopify-section .category-icons {
-    padding-top: 30px !important;
-    padding-bottom: 0px !important;
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+    padding-top: 150px !important;
+  }
+}
+
+/* 787px */
+@media screen and (max-width: 788px) and (min-width: 601px) {
+  .category-icons,
+  section.category-icons,
+  .shopify-section .category-icons {
+    padding-top: 185px !important;
+  }
+}
+
+/* 600px - 2 rows layout (4 icons first row, 3 icons second row) */
+@media screen and (max-width: 600px) and (min-width: 482px) {
+  .category-icons,
+  section.category-icons,
+  .shopify-section .category-icons {
+    padding-top: 75px !important;
+  }
+
+  .category-icons__grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 16px !important;
+  }
+
+  .category-icons__item {
+    flex: 0 0 calc(25% - 12px) !important;  /* 4 items per row */
+    max-width: calc(25% - 12px) !important;
+  }
+  
+  /* Make 5th, 6th, 7th items take up second row */
+  .category-icons__item:nth-child(n+5) {
+    flex: 0 0 calc(33.333% - 12px) !important;  /* 3 items per row */
+    max-width: calc(33.333% - 12px) !important;
+  }
+}
+
+/* 480px and below */
+@media screen and (max-width: 481px) {
+  .category-icons,
+  section.category-icons,
+  .shopify-section .category-icons {
+    padding-top: 75px !important;
   }
 }
 
@@ -98,22 +143,50 @@ section.category-icons,
   
 }
 
-@media screen and (max-width: 767px) {
-  .category-icons__grid {
-    overflow: hidden !important;
-    position: relative !important;
+/* 601-767px: Horizontal row layout */
+@media screen and (max-width: 767px) and (min-width: 601px) {
+  .category-icons,
+  section.category-icons,
+  .shopify-section .category-icons {
+    padding-top: 75px !important;
   }
-  
+
+  .category-icons__grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    overflow: visible !important;
+  }
+
   .category-icons__item {
-    flex: 0 0 33.333% !important;
-    transition: transform 0.5s ease-in-out !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    text-align: center !important;
   }
 }
 
-@media screen and (max-width: 600px) {
-  .category-icons__label,
-  .category-icons__item p {
-    font-size: 12px !important;
+/* 482-600px: 2 rows (4 icons + 3 icons) */
+@media screen and (max-width: 600px) and (min-width: 482px) {
+  .category-icons__grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    overflow: visible !important;
+  }
+
+  .category-icons__item {
+    flex: 0 0 calc(25% - 12px) !important;
+    max-width: calc(25% - 12px) !important;
+    text-align: center !important;
+  }
+  
+  .category-icons__item:nth-child(n+5) {
+    flex: 0 0 calc(33.333% - 12px) !important;
+    max-width: calc(33.333% - 12px) !important;
   }
 }
 
@@ -259,24 +332,7 @@ section.category-icons,
   } /* show first 5 only */
 }
 
-/* Mobile carousel (<= 767px) */
-@media screen and (max-width: 767px) {
-  .category-icons__grid {
-    display: flex;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .category-icons__item {
-    flex: 0 0 33.333%; /* 3 icons visible */
-    transition: transform 0.5s ease-in-out;
-    text-align: center;
-  }
-
-  .category-icons__label {
-    text-align: center; /* ensures proper label alignment */
-  }
-}
+/* This rule is removed - handled by specific breakpoints above */
 
 /* Fix label alignment for "Collaborations" */
 @media screen and (max-width: 600px) {
@@ -287,28 +343,33 @@ section.category-icons,
     width: 100% !important;
   }
 }
+
+/* Mobile carousel - 3 icons sliding */
+@media screen and (max-width: 480px) {
+  .category-icons__grid {
+    position: relative !important;
+    height: 120px !important;
+    overflow: hidden !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .category-icons__item {
+    position: absolute !important;
+    width: calc(33.333% - 8px) !important;
+    transition: left 0.8s ease-in-out !important;
+    top: 0 !important;
+  }
+  
+  .category-icons__item.slot-0 { left: 0% !important; }
+  .category-icons__item.slot-1 { left: 33.333% !important; }
+  .category-icons__item.slot-2 { left: 66.666% !important; }
+  .category-icons__item.slot-hidden { left: 100% !important; }
+}
 {%- endstyle -%}
 
-
-<!-- SIMPLE TEST TO SEE IF SECTION LOADS -->
-<div style="background: red; color: white; padding: 20px; font-size: 24px; text-align: center;">
-  🚨 CATEGORY ICONS SECTION IS LOADING! 🚨
-</div>
-
-<style>
-body {
-  border-top: 10px solid lime !important;
-}
-</style>
-
-<script>
-alert('SECTION IS WORKING!');
-console.log('SECTION IS WORKING!');
-</script>
-
-<section class="category-icons" aria-label="Product Categories" style="margin: 0 !important; padding-top: 30px !important; padding-bottom: 0 !important;">
+<section class="category-icons" aria-label="Product Categories">
   <div class="category-icons__container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
-    <div class="category-icons__grid carousel-container" role="navigation" aria-label="Browse product categories" style="display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap;">
+    <div class="category-icons__grid carousel-container" role="navigation" aria-label="Browse product categories">
       
     <!-- Bestsellers -->
 <a href="{{ collections.bestsellers.url | default: '/collections/bestsellers' }}" 
@@ -428,183 +489,65 @@ console.log('SECTION IS WORKING!');
 </section>
 
 <script>
-// Test if script is running at all
-alert('🚨 CATEGORY ICONS SCRIPT IS RUNNING!');
-console.log('🚨 CATEGORY ICONS SCRIPT IS RUNNING!');
+// Mobile carousel for 480px and below
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🚀 Category Icons - DOM Loaded');
-  alert('🚀 DOM Loaded - Looking for section...');
-  
-  // Force apply styles with JavaScript
-  const section = document.querySelector('.category-icons');
-  console.log('Section found:', section);
-  
-  if (!section) {
-    alert('❌ SECTION NOT FOUND!');
-    console.error('❌ SECTION NOT FOUND! Available sections:', document.querySelectorAll('section'));
-    return;
-  }
-  
-  alert('✅ SECTION FOUND! Applying 30px padding...');
-  
-  const container = document.querySelector('.category-icons__container');
-  const grid = document.querySelector('.category-icons__grid');
   const items = document.querySelectorAll('.category-icons__item');
-  const labels = document.querySelectorAll('.category-icons__label');
+  let currentStartIndex = 0;
   
-  if (section) {
-    // Function to force 30px padding
-    function force30pxPadding() {
-      // Remove all existing padding styles first
-      section.style.removeProperty('padding');
-      section.style.removeProperty('padding-top');
-      section.style.removeProperty('padding-bottom');
-      section.style.removeProperty('padding-left');
-      section.style.removeProperty('padding-right');
-      
-      // Force set 30px padding
-      section.style.setProperty('padding-top', '30px', 'important');
-      section.style.setProperty('padding-bottom', '0px', 'important');
-      section.style.setProperty('padding-left', '0px', 'important');
-      section.style.setProperty('padding-right', '0px', 'important');
-      section.style.setProperty('margin', '0px', 'important');
-      
-      const computedPadding = window.getComputedStyle(section).paddingTop;
-      console.log('🔥 NUCLEAR OPTION - Padding forced to 30px. Actual value:', computedPadding);
-      
-      // If it's still not 30px, log what's overriding it
-      if (computedPadding !== '30px') {
-        console.error('❌ PADDING STILL NOT 30PX! Current value:', computedPadding);
-        console.log('Section classes:', section.className);
-        console.log('Section ID:', section.id);
-        console.log('Parent element:', section.parentElement);
-      }
-    }
-    
-    // Apply immediately
-    force30pxPadding();
-    
-    // Apply repeatedly to override any late-loading styles
-    setTimeout(force30pxPadding, 100);
-    setTimeout(force30pxPadding, 500);
-    setTimeout(force30pxPadding, 1000);
-    setTimeout(force30pxPadding, 2000);
-    
-    // Keep checking every 2 seconds for the first 10 seconds
-    let checkCount = 0;
-    const intervalId = setInterval(() => {
-      force30pxPadding();
-      checkCount++;
-      if (checkCount >= 5) {
-        clearInterval(intervalId);
-        console.log('🏁 Stopped continuous padding enforcement after 10 seconds');
-      }
-    }, 2000);
-  }
+  console.log('Carousel script loaded. Found items:', items.length);
+  console.log('Current window width:', window.innerWidth);
   
-  // Reduce header height but keep logo positioning (left for @1440px)
-  const header = document.querySelector('.shopify-section-header .header');
-  const headerLogo = document.querySelector('.shopify-section-header .header__logo');
-  const headerTrigger = document.querySelector('.shopify-section-header .header-trigger');
-  const headerLogoImg = document.querySelector('.shopify-section-header .header__logo-img');
-  const headerLogoRatio = document.querySelector('.shopify-section-header .header__logo-ratio-box');
-  
-  if (header) {
-    header.style.cssText += 'height: 60px !important; min-height: 60px !important; justify-content: flex-start !important;';
-    console.log('✅ Header height reduced - logo forced to left');
-  }
-  
-  if (headerLogo) {
-    // Reduce height and force to left position
-    headerLogo.style.height = '60px';
-    headerLogo.style.minHeight = '60px';
-    headerLogo.style.paddingTop = '10px';
-    headerLogo.style.paddingBottom = '10px';
-    headerLogo.style.marginLeft = '0';
-    headerLogo.style.marginRight = 'auto';
-    headerLogo.style.textAlign = 'left';
-    console.log('✅ Logo positioned to left');
-  }
-  
-  if (headerTrigger) {
-    headerTrigger.style.cssText += 'height: 60px !important; min-height: 60px !important;';
-  }
-  
-  if (headerLogoImg) {
-    headerLogoImg.style.maxHeight = '40px';
-    // Keep original positioning
-  }
-  
-  if (headerLogoRatio) {
-    headerLogoRatio.style.height = '40px';
-  }
-  
-  if (grid) {
-    grid.style.cssText = 'display: flex !important; justify-content: center !important; align-items: center !important; gap: 24px !important; flex-wrap: wrap !important;';
-  }
-  
-  items.forEach(item => {
-    item.style.cssText = 'display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important;';
-  });
-  
-  labels.forEach(label => {
-    label.style.cssText = 'display: block !important; text-align: center !important; margin: 8px auto 0 auto !important; width: 100% !important;';
-  });
-  
-  // Special fix for Collaborations label
-  const collaborationsLabel = document.querySelector('.collaborations-label');
-  const collaborationsItem = document.querySelector('.collaborations-item');
-  
-  if (collaborationsLabel) {
-    collaborationsLabel.style.cssText = 'display: flex !important; justify-content: center !important; align-items: center !important; text-align: center !important; margin: 8px auto 0 auto !important; width: 100% !important;';
-    console.log('✅ Collaborations label centered with flexbox');
-  }
-  
-  if (collaborationsItem) {
-    collaborationsItem.style.cssText = 'display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important;';
-    console.log('✅ Collaborations item centered');
-  }
-  
-  // Responsive behavior
-  function handleResize() {
+  function updateIconPositions() {
     const width = window.innerWidth;
     
-    // Hide icons 6-7 on medium screens
-    if (width <= 1200 && width >= 768) {
-      items.forEach((item, index) => {
-        if (index >= 5) {
-          item.style.display = 'none !important';
-        }
+    if (width <= 480 && items.length > 0) {
+      items.forEach(icon => {
+        icon.classList.remove('slot-0', 'slot-1', 'slot-2', 'slot-hidden');
       });
-    } else {
-      items.forEach(item => {
-        item.style.display = 'flex !important';
-      });
-    }
-    
-    // Mobile carousel
-    if (width <= 767) {
-      let currentIndex = 0;
-      const totalSets = Math.ceil(items.length / 3);
       
-      function showNextSet() {
-        currentIndex = (currentIndex + 1) % totalSets;
-        items.forEach((item, i) => {
-          const setIndex = Math.floor(i / 3);
-          const offset = (setIndex - currentIndex) * 100;
-          item.style.transform = `translateX(${offset}%)`;
-        });
+      for (let slot = 0; slot < 3; slot++) {
+        const iconIndex = (currentStartIndex + slot) % items.length;
+        items[iconIndex].classList.add(`slot-${slot}`);
       }
       
-      setInterval(showNextSet, 5000);
+      for (let i = 0; i < items.length; i++) {
+        if (i !== (currentStartIndex % items.length) && 
+            i !== ((currentStartIndex + 1) % items.length) && 
+            i !== ((currentStartIndex + 2) % items.length)) {
+          items[i].classList.add('slot-hidden');
+        }
+      }
     }
   }
   
-  handleResize();
-  window.addEventListener('resize', handleResize);
+  function slideCarousel() {
+    const width = window.innerWidth;
+    
+    if (width <= 480 && items.length > 0) {
+      currentStartIndex = (currentStartIndex + 1) % items.length;
+      console.log('Sliding carousel to position:', currentStartIndex);
+      updateIconPositions();
+    }
+  }
   
-  console.log('✅ Force fixes applied successfully');
+  function initCarousel() {
+    const width = window.innerWidth;
+    
+    if (width <= 480 && items.length > 0) {
+      currentStartIndex = 0;
+      updateIconPositions();
+    } else {
+      items.forEach(icon => {
+        icon.classList.remove('slot-0', 'slot-1', 'slot-2', 'slot-hidden');
+      });
+      currentStartIndex = 0;
+    }
+  }
+  
+  initCarousel();
+  setInterval(slideCarousel, 5000);
+  window.addEventListener('resize', initCarousel);
 });
 </script>
 {% comment %}{% endif %}{% endcomment %}
@@ -618,12 +561,12 @@ document.addEventListener('DOMContentLoaded', function() {
     { "type": "color", "id": "text_color", "label": "Text Color", "default": "#333333" },
 
     { "type": "header", "content": "Desktop Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top Padding (Desktop)", "min": 0, "max": 200, "step": 4, "default": 125, "unit": "px" },
+    { "type": "range", "id": "padding_top", "label": "Top Padding (Desktop)", "min": 0, "max": 200, "step": 4, "default": 124, "unit": "px" },
     { "type": "range", "id": "padding_bottom", "label": "Bottom Padding (Desktop)", "min": 0, "max": 200, "step": 4, "default": 32, "unit": "px" },
     
     { "type": "header", "content": "Tablet Padding" },
-    { "type": "range", "id": "padding_top_tablet", "label": "Top Padding (Tablet)", "min": 0, "max": 150, "step": 4, "default": 80, "unit": "px" },
-    { "type": "range", "id": "padding_bottom_tablet", "label": "Bottom Padding (Tablet)", "min": 0, "max": 150, "step": 4, "default": 24, "unit": "px" },
+    { "type": "range", "id": "padding_top_tablet", "label": "Top Padding (Tablet)", "min": 0, "max": 152, "step": 4, "default": 80, "unit": "px" },
+    { "type": "range", "id": "padding_bottom_tablet", "label": "Bottom Padding (Tablet)", "min": 0, "max": 152, "step": 4, "default": 24, "unit": "px" },
     
     { "type": "header", "content": "Mobile Padding" },
     { "type": "range", "id": "padding_top_mobile", "label": "Top Padding (Mobile)", "min": 0, "max": 100, "step": 4, "default": 60, "unit": "px" },
@@ -647,7 +590,7 @@ document.addEventListener('DOMContentLoaded', function() {
     { "type": "range", "id": "tablet_icon_size", "label": "Icon Size (Tablet)", "min": 20, "max": 120, "step": 2, "default": 70, "unit": "px" },
     { "type": "range", "id": "mobile_icon_size", "label": "Icon Size (Mobile)", "min": 20, "max": 100, "step": 2, "default": 60, "unit": "px" },
     { "type": "range", "id": "small_mobile_icon_size", "label": "Icon Size (Small Mobile)", "min": 20, "max": 80, "step": 2, "default": 50, "unit": "px" },
-    { "type": "range", "id": "xs_mobile_icon_size", "label": "Icon Size (XS Mobile)", "min": 20, "max": 60, "step": 2, "default": 45, "unit": "px" },
+    { "type": "range", "id": "xs_mobile_icon_size", "label": "Icon Size (XS Mobile)", "min": 20, "max": 60, "step": 2, "default": 40, "unit": "px" },
 
     { "type": "header", "content": "Label Spacing - All Breakpoints" },
     { "type": "range", "id": "label_spacing", "label": "Label Spacing (Desktop)", "min": 0, "max": 50, "step": 2, "default": 12, "unit": "px" },

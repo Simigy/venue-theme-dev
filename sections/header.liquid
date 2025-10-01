@@ -129,6 +129,27 @@ body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].h
 body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .primary-nav__link, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .secondary-nav__link, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .header__logo-link--text, body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].header .header-trigger__link {
      color: #013D35;
 }
+
+  /* Header background color and remove border */
+  .header,
+  .header.header--sticky,
+  .header.header--not-sticky,
+  .header.header--scroll {
+    background: #ECDFD0 !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Remove any divider/border */
+  .header--has-transparent-divider::after,
+  .header::after {
+    display: none !important;
+  }
+  
+  .header.header--center .header-navs {
+    background: #ECDFD0;
+  }
+
   @media screen and (max-width: 767px) {
     .header,
     .header__logo,
@@ -138,6 +159,15 @@ body:not(.header-stuck):not([header-menu-open]) [data-transparent-header=true].h
     }
     .header__logo-img {
       max-height: {{ logo_size_mobile }}px;
+    }
+    
+    /* Center logo when hamburger menu is visible */
+    .header__logo {
+      position: absolute !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      margin: 0 !important;
+      text-align: center !important;
     }
     .header__logo-ratio-box {
       height: {% if section.settings.logo contains '.svg' %} {{ logo_size_mobile }}px{% else %}auto{% endif %};
