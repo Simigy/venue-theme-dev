@@ -1,0 +1,570 @@
+{% comment %}
+  Category Icons Section - 6 Icons Version
+  Displays 6 category icons with links for "See all products" page
+{% endcomment %}
+
+{%- style -%}
+/* === FORCE OVERRIDE ALL STYLES === */
+.category-icons-6,
+section.category-icons-6,
+.shopify-section .category-icons-6 {
+  background-color: {{ section.settings.background_color }} !important;
+  margin: 0 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Responsive padding-top for different screen sizes */
+/* Default for 1440px and above */
+.category-icons-6,
+section.category-icons-6,
+.shopify-section .category-icons-6 {
+  padding-top: 80px !important;
+  padding-bottom: 12px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+/* 1200px, 1024px, 992px, 900px */
+@media screen and (max-width: 1439px) and (min-width: 788px) {
+  .category-icons-6,
+  section.category-icons-6,
+  .shopify-section .category-icons-6 {
+    padding-top: 150px !important;
+  }
+}
+
+/* 787px */
+@media screen and (max-width: 788px) and (min-width: 601px) {
+  .category-icons-6,
+  section.category-icons-6,
+  .shopify-section .category-icons-6 {
+    padding-top: 185px !important;
+  }
+}
+
+/* 600px - 2 rows layout (3 icons first row, 3 icons second row) */
+@media screen and (max-width: 600px) and (min-width: 482px) {
+  .category-icons-6,
+  section.category-icons-6,
+  .shopify-section .category-icons-6 {
+    padding-top: 75px !important;
+  }
+
+  .category-icons-6__grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 16px !important;
+  }
+
+  .category-icons-6__item {
+    flex: 0 0 calc(33.333% - 12px) !important;  /* 3 items per row */
+    max-width: calc(33.333% - 12px) !important;
+  }
+}
+
+/* 480px and below */
+@media screen and (max-width: 481px) {
+  .category-icons-6,
+  section.category-icons-6,
+  .shopify-section .category-icons-6 {
+    padding-top: 75px !important;
+  }
+}
+
+.category-icons-6__container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 15px !important;
+}
+
+.category-icons-6__grid {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: {{ section.settings.circle_gap }}px !important;
+  flex-wrap: wrap !important;
+}
+
+.category-icons-6__item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: {{ section.settings.circle_width }}px !important;
+}
+
+.category-icons-6__label,
+.category-icons-6__item p {
+  display: block !important;
+  text-align: center !important;
+  margin: 8px auto 0 auto !important;
+  width: 100% !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+}
+
+/* Responsive breakpoints with !important */
+@media screen and (max-width: 1200px) and (min-width: 768px) {
+  .category-icons-6__item:nth-child(n+5) { 
+    display: none !important; 
+  }
+  
+  /* Force logo to left on large screens where icons are hidden */
+  .shopify-section-header .header {
+    justify-content: flex-start !important;
+  }
+  
+  .shopify-section-header .header__logo {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    text-align: left !important;
+  }
+}
+
+/* Large screens (1200px+) - ensure logo stays left */
+@media screen and (min-width: 1200px) {
+  .shopify-section-header .header {
+    justify-content: flex-start !important;
+  }
+  
+  .shopify-section-header .header__logo {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    text-align: left !important;
+  }
+  
+}
+
+/* 601-767px: Horizontal row layout */
+@media screen and (max-width: 767px) and (min-width: 601px) {
+  .category-icons-6,
+  section.category-icons-6,
+  .shopify-section .category-icons-6 {
+    padding-top: 75px !important;
+  }
+
+  .category-icons-6__grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    overflow: visible !important;
+  }
+
+  .category-icons-6__item {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    text-align: center !important;
+  }
+}
+
+/* 482-600px: 2 rows (3 icons + 3 icons) */
+@media screen and (max-width: 600px) and (min-width: 482px) {
+  .category-icons-6__grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    overflow: visible !important;
+  }
+
+  .category-icons-6__item {
+    flex: 0 0 calc(33.333% - 12px) !important;
+    max-width: calc(33.333% - 12px) !important;
+    text-align: center !important;
+  }
+}
+
+/* Reduce navbar height to prevent overlap - keep logo positioning */
+.shopify-section-header .header,
+.shopify-section-header .header-trigger {
+  height: 60px !important;
+  min-height: 60px !important;
+}
+
+.shopify-section-header .header__logo {
+  height: 60px !important;
+  min-height: 60px !important;
+  /* Keep original positioning - don't change alignment */
+}
+
+.shopify-section-header .header__logo-img {
+  max-height: 40px !important;
+  /* Keep logo at left position for @1440px */
+}
+
+.shopify-section-header .header__logo-ratio-box {
+  height: 40px !important;
+}
+
+/* Force logo to left position on large screens */
+.shopify-section-header .header {
+  justify-content: flex-start !important;
+}
+
+.shopify-section-header .header__logo {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+
+/* Ensure header is not centered */
+.shopify-section-header .header.header--center {
+  justify-content: flex-start !important;
+}
+
+.shopify-section-header .header.header--center .header__logo {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* === Base wrapper (applies to ALL icons) === */
+.category-icons-6__image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #ECDFD0;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 12px;
+  border: 0px solid #000000;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* === Multi-image wrapper (larger for first circle) === */
+.category-icons-6__image-wrapper--multi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #ECDFD0;
+  width: {{ section.settings.multi_circle_size }}px;
+  height: {{ section.settings.multi_circle_size }}px;
+  margin-bottom: 12px;
+  border: 0px solid #000000;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* === Per-circle individual paddings === */
+.category-icons-6__item:nth-child(1) .category-icons-6__image-wrapper { padding: {{ section.settings.circle1_padding }}; }
+.category-icons-6__item:nth-child(2) .category-icons-6__image-wrapper { padding: {{ section.settings.circle2_padding }}; }
+.category-icons-6__item:nth-child(3) .category-icons-6__image-wrapper { padding: {{ section.settings.circle3_padding }}; }
+.category-icons-6__item:nth-child(4) .category-icons-6__image-wrapper { padding: {{ section.settings.circle4_padding }}; }
+.category-icons-6__item:nth-child(5) .category-icons-6__image-wrapper { padding: {{ section.settings.circle5_padding }}; }
+.category-icons-6__item:nth-child(6) .category-icons-6__image-wrapper { padding: {{ section.settings.circle6_padding }}; }
+
+/* === Image inside wrapper === */
+.category-icons-6__image {
+  width: 75%;          
+  height: 75%;
+  object-fit: contain; 
+}
+
+.category-icons-6__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.category-icons-6__item p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 8px auto 0 auto; 
+  width: 100%;
+  height: {{ section.settings.label_height }}px;
+  font-family: Poppins, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--Color-Pantone-627-C, #013D35);
+  word-wrap: break-word;
+  hyphens: auto;
+  overflow: hidden;
+}
+
+.category-icons-6__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: {{ section.settings.label_height }}px;
+  font-family: Poppins, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--Color-Pantone-627-C, #013D35);
+  word-wrap: break-word;
+  hyphens: auto;
+  overflow: hidden;
+}
+
+/* Multi-image layout tweaks */
+.category-icons-6__image-wrapper--multi {
+  gap: 0px;
+  flex-wrap: nowrap;
+  padding: 8px;
+}
+
+.category-icons-6__image-wrapper--multi .category-icons-6__image {
+  flex: 1;            
+  max-width: 19%;
+  max-height: 70%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  margin: 0 0.5px;
+}
+
+/* Fix label alignment */
+@media screen and (max-width: 600px) {
+  .category-icons-6__item p.category-icons-6__label {
+    display: block !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+}
+
+/* Mobile carousel - 3 icons sliding */
+@media screen and (max-width: 480px) {
+  .category-icons-6__grid {
+    position: relative !important;
+    height: 120px !important;
+    overflow: hidden !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .category-icons-6__item {
+    position: absolute !important;
+    width: calc(33.333% - 8px) !important;
+    transition: left 0.8s ease-in-out !important;
+    top: 0 !important;
+  }
+  
+  .category-icons-6__item.slot-0 { left: 0% !important; }
+  .category-icons-6__item.slot-1 { left: 33.333% !important; }
+  .category-icons-6__item.slot-2 { left: 66.666% !important; }
+  .category-icons-6__item.slot-hidden { left: 100% !important; }
+}
+{%- endstyle -%}
+
+<section class="category-icons-6" aria-label="Product Categories">
+  <div class="category-icons-6__container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+    <div class="category-icons-6__grid carousel-container" role="navigation" aria-label="Browse product categories">
+      
+      <!-- Alle produkter -->
+      <a href="{{ collections.all.url | default: '/collections/all' }}" 
+         class="category-icons-6__item" 
+         aria-label="Shop All Products"
+         style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        
+        <div class="category-icons-6__image-wrapper category-icons-6__image-wrapper--multi">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Tonic.png?v=1759507639" 
+            alt="Tonic"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gin.png?v=1759507638"
+            alt="Gin"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Vodka.png?v=1759507639"
+            alt="Vodka"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Aquavit_a3c3c5bb-2e5b-48df-aa85-270e6f6380fe.png?v=1759507638"
+            alt="Akvavit"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gift.png?v=1759507638"
+            alt="Gift"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+        </div>
+        <p class="category-icons-6__label">Alle produkter</p>
+      </a>
+      
+      <!-- Gin -->
+      <a href="{{ collections.gin.url | default: '/collections/gin' }}" class="category-icons-6__item" aria-label="Shop Gin collection">
+        <div class="category-icons-6__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gin.png?v=1759507638" 
+            alt="Gin"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+        </div>
+        <p class="category-icons-6__label">Gin</p>
+      </a>
+      
+      <!-- Vodka -->
+      <a href="{{ collections.vodka.url | default: '/collections/vodka' }}" class="category-icons-6__item" aria-label="Shop Vodka collection">
+        <div class="category-icons-6__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Vodka.png?v=1759507639" 
+            alt="Vodka"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+        </div>
+        <p class="category-icons-6__label">Vodka</p>
+      </a>
+      
+      <!-- Akvavit -->
+      <a href="{{ collections.akvavit.url | default: '/collections/akvavit' }}" class="category-icons-6__item" aria-label="Shop Akvavit collection">
+        <div class="category-icons-6__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Aquavit_a3c3c5bb-2e5b-48df-aa85-270e6f6380fe.png?v=1759507638" 
+            alt="Akvavit"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+        </div>
+        <p class="category-icons-6__label">Akvavit</p>
+      </a>
+      
+      <!-- Tonic & Tilbehør -->
+      <a href="{{ collections['tonic-tilbehor'].url | default: '/collections/tonic-tilbehor' }}" class="category-icons-6__item" aria-label="Shop Tonic & Tilbehør collection">
+        <div class="category-icons-6__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Tonic.png?v=1759507639" 
+            alt="Tonic & Tilbehør"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+        </div>
+        <p class="category-icons-6__label">Tonic & Tilbehør</p>
+      </a>
+      
+      <!-- Gavekort -->
+      <a href="{{ collections.gavekort.url | default: '/collections/gavekort' }}" class="category-icons-6__item" aria-label="Shop Gavekort collection">
+        <div class="category-icons-6__image-wrapper">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gift.png?v=1759507638" 
+            alt="Gavekort"
+            class="category-icons-6__image"
+            loading="lazy"
+          >
+        </div>
+        <p class="category-icons-6__label">Gavekort</p>
+      </a>
+      
+    </div>
+  </div>
+</section>
+
+<script>
+// Mobile carousel for 480px and below
+
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.category-icons-6__item');
+  let currentStartIndex = 0;
+  
+  console.log('Carousel script loaded. Found items:', items.length);
+  console.log('Current window width:', window.innerWidth);
+  
+  function updateIconPositions() {
+    const width = window.innerWidth;
+    
+    if (width <= 480 && items.length > 0) {
+      items.forEach(icon => {
+        icon.classList.remove('slot-0', 'slot-1', 'slot-2', 'slot-hidden');
+      });
+      
+      for (let slot = 0; slot < 3; slot++) {
+        const iconIndex = (currentStartIndex + slot) % items.length;
+        items[iconIndex].classList.add(`slot-${slot}`);
+      }
+      
+      for (let i = 0; i < items.length; i++) {
+        if (i !== (currentStartIndex % items.length) && 
+            i !== ((currentStartIndex + 1) % items.length) && 
+            i !== ((currentStartIndex + 2) % items.length)) {
+          items[i].classList.add('slot-hidden');
+        }
+      }
+    }
+  }
+  
+  function slideCarousel() {
+    const width = window.innerWidth;
+    
+    if (width <= 480 && items.length > 0) {
+      currentStartIndex = (currentStartIndex + 1) % items.length;
+      console.log('Sliding carousel to position:', currentStartIndex);
+      updateIconPositions();
+    }
+  }
+  
+  function initCarousel() {
+    const width = window.innerWidth;
+    
+    if (width <= 480 && items.length > 0) {
+      currentStartIndex = 0;
+      updateIconPositions();
+    } else {
+      items.forEach(icon => {
+        icon.classList.remove('slot-0', 'slot-1', 'slot-2', 'slot-hidden');
+      });
+      currentStartIndex = 0;
+    }
+  }
+  
+  initCarousel();
+  setInterval(slideCarousel, 5000);
+  window.addEventListener('resize', initCarousel);
+});
+</script>
+
+{% schema %}
+{
+  "name": "Category Icons 6",
+  "settings": [
+    { "type": "checkbox", "id": "show_section", "label": "Show Section", "default": true },
+    { "type": "color", "id": "background_color", "label": "Background Color", "default": "#ffffff" },
+    
+    { "type": "header", "content": "Layout Controls" },
+    { "type": "range", "id": "circle_gap", "label": "Gap Between Circles", "min": 8, "max": 60, "step": 2, "default": 24, "unit": "px" },
+    { "type": "range", "id": "circle_width", "label": "Circle Container Width", "min": 80, "max": 150, "step": 5, "default": 100, "unit": "px" },
+    { "type": "range", "id": "label_height", "label": "Label Height (for consistent spacing)", "min": 20, "max": 60, "step": 2, "default": 40, "unit": "px" },
+    { "type": "range", "id": "multi_circle_size", "label": "First Circle Size (5 products)", "min": 100, "max": 160, "step": 5, "default": 120, "unit": "px" },
+    
+    { "type": "header", "content": "Individual Circle Paddings" },
+    { "type": "text", "id": "circle1_padding", "label": "Circle 1 Padding (Alle produkter)", "default": "8px", "info": "Format: top right bottom left (e.g., 10px 15px 10px 15px)" },
+    { "type": "text", "id": "circle2_padding", "label": "Circle 2 Padding (Gin)", "default": "12px", "info": "Format: top right bottom left (e.g., 10px 15px 10px 15px)" },
+    { "type": "text", "id": "circle3_padding", "label": "Circle 3 Padding (Vodka)", "default": "12px", "info": "Format: top right bottom left (e.g., 10px 15px 10px 15px)" },
+    { "type": "text", "id": "circle4_padding", "label": "Circle 4 Padding (Akvavit)", "default": "12px", "info": "Format: top right bottom left (e.g., 10px 15px 10px 15px)" },
+    { "type": "text", "id": "circle5_padding", "label": "Circle 5 Padding (Tonic & Tilbehør)", "default": "12px", "info": "Format: top right bottom left (e.g., 10px 15px 10px 15px)" },
+    { "type": "text", "id": "circle6_padding", "label": "Circle 6 Padding (Gavekort)", "default": "12px", "info": "Format: top right bottom left (e.g., 10px 15px 10px 15px)" }
+  ],
+  "presets": [
+    { "name": "Category Icons 6" }
+  ]
+}
+{% endschema %}

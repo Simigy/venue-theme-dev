@@ -1,0 +1,303 @@
+{% if collection.handle == 'all' %}
+<style>
+  .collection-circles {
+    margin: 12px 0 18px;
+  }
+  .collection-circles__list {
+    display: flex;
+    align-items: center;
+    gap: {{ section.settings.gap }}px;
+    overflow-x: auto;
+    padding: 6px 4px 8px;
+    scroll-snap-type: x mandatory;
+    list-style: none;
+    margin: 0;
+  }
+  .collection-circles__item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    text-align: center;
+        margin-right: 15px;
+  }
+  .collection-circles__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 99px;
+    overflow: hidden;
+    transition: transform .2s ease;
+    box-sizing: border-box;
+  }
+  .collection-circles__link:hover {
+    transform: translateY(-2px);
+  }
+  .collection-circles__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .collection-circles__images--multi {
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    height: 100%;
+  }
+  .collection-circles__images--multi img {
+    flex: 0 0 28%;
+    max-width: 28%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  .collection-circles__label {
+    margin-top: 8px;
+    font-size: {{ section.settings.label_size }}px;
+    line-height: 1.2;
+    color: #0a2d27;
+  }
+  @media(min-width: 768px) {
+    .collection-circles__list {
+      overflow: visible;
+      {% if section.settings.center %}justify-content: center;{% endif %}
+    }
+  }
+</style>
+
+<div class="collection-circles">
+  <div class="container container--large">
+    <ul class="collection-circles__list o-list-bare">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks limit: 6 %}
+          {% assign label_down = block.settings.label | downcase | strip %}
+          {% assign circle_padding = block.settings.padding %}
+          {% unless circle_padding and circle_padding != '' %}
+            {% case label_down %}
+              {% when 'alle produkter' %}
+                {% assign circle_padding = '14px 10.326px 13.449px 11px' %}
+              {% when 'gin' %}
+                {% assign circle_padding = '12px 28.5px 11px 27.5px' %}
+              {% when 'vodka' %}
+                {% assign circle_padding = '8.535px 22.757px 8.532px 22.758px' %}
+              {% when 'akvavit' %}
+                {% assign circle_padding = '4.367px 0' %}
+              {% when 'tonic & tilbehør' %}
+                {% assign circle_padding = '8.619px 0 8.621px 0' %}
+              {% when 'gavekort' %}
+                {% assign circle_padding = '19.95px 11.748px 19.951px 11.75px' %}
+              {% else %}
+                {% assign circle_padding = '19.95px 11.748px 19.951px 11.75px' %}
+            {% endcase %}
+          {% endunless %}
+          <li class="collection-circles__item" {{ block.shopify_attributes }}>
+            <a class="collection-circles__link" href="{{ block.settings.link | default: '#' }}" aria-label="{{ block.settings.label | escape }}" style="width: {{ block.settings.size | default: 80 }}px; height: {{ block.settings.size | default: 80 }}px; padding: {{ circle_padding }}; border: {{ block.settings.border_width | default: 0 }}px solid {{ block.settings.border_color | default: '#013D35' }}; background: {{ block.settings.bg_color | default: '#ECDFD0' }};">
+              {% if label_down == 'alle produkter' %}
+                <div class="collection-circles__images--multi" aria-hidden="true">
+                  <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Tonic.png?v=1759507639" width="24" height="24" alt="">
+                  <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gin.png?v=1759507638" width="24" height="24" alt="">
+                  <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Vodka.png?v=1759507639" width="24" height="24" alt="">
+                  <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Aquavit_a3c3c5bb-2e5b-48df-aa85-270e6f6380fe.png?v=1759507638" width="24" height="24" alt="">
+                  <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gift.png?v=1759507638" width="24" height="24" alt="">
+                </div>
+              {% elsif block.settings.image != blank %}
+                <img class="collection-circles__img" src="{{ block.settings.image | image_url: width: 160, height: 160, crop: 'center' }}" width="{{ block.settings.size | default: 80 }}" height="{{ block.settings.size | default: 80 }}" alt="{{ block.settings.label | escape }}">
+              {% endif %}
+            </a>
+            <div class="collection-circles__label">{{ block.settings.label }}</div>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li class="collection-circles__item">
+          <a class="collection-circles__link" href="/collections/all" aria-label="Alle produkter" style="width: 80px; height: 80px; padding: 14px 10.326px 13.449px 11px; border: 0 solid #013D35; background: #ECDFD0;">
+            <div class="collection-circles__images--multi" aria-hidden="true">
+              <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Tonic.png?v=1759507639" width="24" height="24" alt="">
+              <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gin.png?v=1759507638" width="24" height="24" alt="">
+              <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Vodka.png?v=1759507639" width="24" height="24" alt="">
+              <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Aquavit_a3c3c5bb-2e5b-48df-aa85-270e6f6380fe.png?v=1759507638" width="24" height="24" alt="">
+              <img src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gift.png?v=1759507638" width="24" height="24" alt="">
+            </div>
+          </a>
+          <div class="collection-circles__label">Alle produkter</div>
+        </li>
+        <li class="collection-circles__item">
+          <a class="collection-circles__link" href="/collections/enegin" aria-label="Gin" style="width: 80px; height: 80px; padding: 12px 28.5px 11px 27.5px; border: 0 solid #013D35; background: #ECDFD0;">
+            <img class="collection-circles__img" src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gin.png?v=1759507638" width="80" height="80" alt="Gin">
+          </a>
+          <div class="collection-circles__label">Gin</div>
+        </li>
+        <li class="collection-circles__item">
+          <a class="collection-circles__link" href="/collections/vodka" aria-label="Vodka" style="width: 80px; height: 80px; padding: 8.535px 22.757px 8.532px 22.758px; border: 0 solid #013D35; background: #ECDFD0;">
+            <img class="collection-circles__img" src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Vodka.png?v=1759507639" width="80" height="80" alt="Vodka">
+          </a>
+          <div class="collection-circles__label">Vodka</div>
+        </li>
+        <li class="collection-circles__item">
+          <a class="collection-circles__link" href="/collections/akvavit" aria-label="Akvavit" style="width: 80px; height: 80px; padding: 4.367px 0; border: 0 solid #013D35; background: #ECDFD0;">
+            <img class="collection-circles__img" src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Aquavit_a3c3c5bb-2e5b-48df-aa85-270e6f6380fe.png?v=1759507638" width="80" height="80" alt="Akvavit">
+          </a>
+          <div class="collection-circles__label">Akvavit</div>
+        </li>
+        <li class="collection-circles__item">
+          <a class="collection-circles__link" href="/collections/tonic" aria-label="Tonic & Tilbehør" style="width: 80px; height: 80px; padding: 8.619px 0 8.621px 0; border: 0 solid #013D35; background: #ECDFD0;">
+            <img class="collection-circles__img" src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Tonic.png?v=1759507639" width="80" height="80" alt="Tonic & Tilbehør">
+          </a>
+          <div class="collection-circles__label">Tonic & Tilbehør</div>
+        </li>
+        <li class="collection-circles__item">
+          <a class="collection-circles__link" href="/collections/gavekort" aria-label="Gavekort" style="width: 80px; height: 80px; padding: 19.95px 11.748px 19.951px 11.75px; border: 0 solid #013D35; background: #ECDFD0;">
+            <img class="collection-circles__img" src="https://cdn.shopify.com/s/files/1/0501/1560/8740/files/Gift.png?v=1759507638" width="80" height="80" alt="Gavekort">
+          </a>
+          <div class="collection-circles__label">Gavekort</div>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Collection circles",
+  "class": "js-section__collection-circles",
+  "settings": [
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between circles (px)",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label font size (px)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "checkbox",
+      "id": "center",
+      "label": "Center on desktop",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "circle",
+      "name": "Circle",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Alle produkter"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "label": "Size (px)",
+          "min": 60,
+          "max": 120,
+          "step": 2,
+          "default": 80
+        },
+        {
+          "type": "text",
+          "id": "padding",
+          "label": "Padding (CSS)",
+          "default": "19.95px 11.748px 19.951px 11.75px"
+        },
+        {
+          "type": "range",
+          "id": "border_width",
+          "label": "Border width (px)",
+          "min": 0,
+          "max": 6,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border color",
+          "default": "#013D35"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background",
+          "default": "#ECDFD0"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection circles",
+      "blocks": [
+        {
+          "type": "circle",
+          "settings": {
+            "label": "Alle produkter",
+            "link": "/collections/all"
+          }
+        },
+        {
+          "type": "circle",
+          "settings": {
+            "label": "Gin",
+            "link": "/collections/enegin"
+          }
+        },
+        {
+          "type": "circle",
+          "settings": {
+            "label": "Vodka",
+            "link": "/collections/vodka"
+          }
+        },
+        {
+          "type": "circle",
+          "settings": {
+            "label": "Akvavit",
+            "link": "/collections/akvavit"
+          }
+        },
+        {
+          "type": "circle",
+          "settings": {
+            "label": "Tonic & Tilbehør",
+            "link": "/collections/tonic"
+          }
+        },
+        {
+          "type": "circle",
+          "settings": {
+            "label": "Gavekort",
+            "link": "/collections/gavekort"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection"]
+  }
+}
+{% endschema %}
